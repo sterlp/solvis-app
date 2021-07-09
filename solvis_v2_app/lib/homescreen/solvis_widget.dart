@@ -172,12 +172,13 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
         if (r.statusCode == 401) {
           const problem = 'HTTP 401: Falscher Benutzername oder Password!';
           setState(() => _errorCounter.maxReached(problem));
+        } else {
+          throw '${r.statusCode}: ${r.body}';
         }
         return;
       }
     } catch (e) {
-      _errorCounter.count(e);
-      if (_errorCounter.isMaxNotReached) {
+      if (_errorCounter.count(e).isMaxNotReached) {
         autoRefresh();
       }
       setState(() {});

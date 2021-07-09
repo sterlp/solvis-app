@@ -2,6 +2,20 @@
 
 Solvis V2 Remote App
 
+# Commands
+
+## Build Release
+
+```
+flutter build appbundle --no-sound-null-safety --release
+```
+
+## Generate a new launcher icon
+
+```
+flutter pub run flutter_launcher_icons:main
+```
+
 # URLs
 
 ## Display starten

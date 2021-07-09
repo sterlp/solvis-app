@@ -5,6 +5,21 @@ import 'package:solvis_v2_app/main.dart';
 import 'package:solvis_v2_app/util/event_counter.dart';
 
 void main() {
+
+  test('Counts error numbers', () {
+    final subject = EventCounter<String>(33);
+    expect(subject.eventCount, 0);
+
+    subject.count('ja');
+    expect(subject.eventCount, 1);
+
+    subject.count('ja');
+    expect(subject.eventCount, 2);
+
+    subject.count('ja');
+    expect(subject.eventCount, 3);
+  });
+
   test('Counts one and has event', () {
     final subject = EventCounter<String>(2);
 

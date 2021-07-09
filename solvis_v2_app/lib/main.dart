@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           return _buildMain(snapshot.requireData);
         } else {
           return Scaffold(
-              appBar: AppBar(title: Text(widget.title)),
+            appBar: AppBar(title: Text(widget.title)),
             body: const Center(child: CircularProgressIndicator())
           );
         }
