@@ -10,8 +10,6 @@ https://github.com/sterlp/solvis-app/issues
 
 ![Home](https://github.com/sterlp/solvis-app/blob/master/solvis_v2_app/resources/Screenshot_20210706-075206.jpg)
 
-![Wasser](https://github.com/sterlp/solvis-app/blob/master/solvis_v2_app/resources/Screenshot_20210706-075239.jpg)
-
 ![Heizung](https://github.com/sterlp/solvis-app/blob/master/solvis_v2_app/resources/Screenshot_20210706-075455.jpg)
 
 
