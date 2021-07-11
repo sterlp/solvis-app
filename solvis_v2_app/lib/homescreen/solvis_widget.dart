@@ -1,11 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:solvis_v2_app/bitmap_image.dart';
+import 'package:solvis_v2_app/homescreen/bitmap_image.dart';
 import 'package:solvis_v2_app/settings/server_settings_page.dart';
-import 'package:solvis_v2_app/solvis_client.dart';
+import 'package:solvis_v2_app/solvis/solvis_client.dart';
 import 'package:solvis_v2_app/util/event_counter.dart';
 
 class SolvisWidget extends StatefulWidget {
@@ -19,10 +18,10 @@ class SolvisWidget extends StatefulWidget {
 }
 
 class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver {
-  static const MAX_WIDTH = 480;
-  static const MAX_HIGHT = 256;
+  static const maxWidth = 480;
+  static const maxHeight = 256;
   // ensure 500ms between the touch and the confirm REST calls
-  static const TAB_DETECTION_DELAY_MS = 500;
+  // static const tabDetectionDelayMs = 500;
 
   final _errorCounter = EventCounter(5);
   Timer? _refreshTimer;
@@ -67,7 +66,7 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
       onTapDown: (d) async {
         final p = _point(d.localPosition);
         _tapDownTime = DateTime.now().millisecondsSinceEpoch;
-        if (p.x < MAX_WIDTH && p.y < MAX_HIGHT) {
+        if (p.x < maxWidth && p.y < maxHeight) {
           await widget._solvisClient.touch(p.x, p.y);
           _tapDownTime = DateTime.now().millisecondsSinceEpoch;
           HapticFeedback.lightImpact();

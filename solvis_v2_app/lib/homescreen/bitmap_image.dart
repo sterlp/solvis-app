@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'dart:math' as Math;
+import 'dart:math' as _math;
 import 'dart:ui' as ui show Image;
+import 'package:flutter/material.dart';
 
 class ImageEditor extends CustomPainter {
   final Offset offset = const Offset(0.0, 0.0);
@@ -9,9 +9,9 @@ class ImageEditor extends CustomPainter {
   ImageEditor(this.image);
   double _scale = 1.0;
 
-  double get scale => this._scale;
-  int get width => this.image.width;
-  int get height => this.image.height;
+  double get scale => _scale;
+  int get width => image.width;
+  int get height => image.height;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -20,7 +20,7 @@ class ImageEditor extends CustomPainter {
     if (size.width > 0) {
       final maxWidth = size.width / image.width;
       final maxHeight = size.height / image.height;
-      _scale = Math.min(maxWidth, maxHeight);
+      _scale = _math.min(maxWidth, maxHeight);
       // debugPrint('scale: $_scale');
       canvas.scale(_scale, _scale);
     }

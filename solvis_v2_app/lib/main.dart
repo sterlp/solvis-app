@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/settings/solvis_settings.dart';
-import 'package:solvis_v2_app/solvis_client.dart';
+import 'package:solvis_v2_app/solvis/solvis_client.dart';
 import 'package:solvis_v2_app/homescreen/solvis_widget.dart';
 
 void main() {

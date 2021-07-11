@@ -2,7 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solvis_v2_app/settings/solvis_settings.dart';
-import 'package:solvis_v2_app/solvis_client.dart';
+import 'package:solvis_v2_app/solvis/solvis_client.dart';
 
 class ServerSettingsPage extends StatefulWidget {
   static Future<void> open(BuildContext context, SolvisClient _solvisClient) {
@@ -93,7 +93,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
     );
   }
 
-  void _testServerConnection(SolvisSettings settings) async {
+  Future<void> _testServerConnection(SolvisSettings settings) async {
     settings.url = _serverUrlCtrl.text;
     settings.password = _userPasswordCtrl.text;
     settings.user = _userNameCtrl.text;
@@ -112,7 +112,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
           animType: AnimType.RIGHSLIDE,
           headerAnimationLoop: false,
           title: 'Erfolg',
-          desc: 'Verbindung war erfolgreich.',
+          desc: 'Verbindung erfolgreich.',
           btnOkOnPress: () => Navigator.pop(context),
           btnOkIcon: Icons.check_circle,
           btnOkText: 'Schließen',
