@@ -10,7 +10,7 @@ import 'package:http_auth/http_auth.dart' as http_auth;
 class SolvisClient extends ValueNotifier<String> {
 
   SolvisClient(this._client, String _server) : super(_server);
-  SolvisClient.fromSettings(SolvisSettings settings)
+  SolvisClient.fromSettings(SolvisSettingsDao settings)
     : _client = http_auth.DigestAuthClient(settings.user, settings.password),
     super(settings.url);
 

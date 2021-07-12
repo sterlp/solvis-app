@@ -1,9 +1,9 @@
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SolvisSettings {
+class SolvisSettingsDao {
   final SharedPreferences _preferences;
-  SolvisSettings(this._preferences);
+  SolvisSettingsDao(this._preferences);
 
   set user (String value) => _preferences.setString('solvis_user', value);
   String get user => _preferences.getString('solvis_user') ?? '';
@@ -14,5 +14,5 @@ class SolvisSettings {
   set url (String value) => _preferences.setString('solvis_url', value);
   String get url => _preferences.getString('solvis_url') ?? '';
 
-  bool get hasUrl => url.length > 0;
+  bool get hasUrl => url.isNotEmpty;
 }

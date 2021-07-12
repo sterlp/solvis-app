@@ -1,7 +1,8 @@
+import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:solvis_v2_app/app_config.dart';
 import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/settings/solvis_settings.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
@@ -25,18 +26,20 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  MyHomePage({Key? key, required this.title,
+      Future<AppContainer>? container}) :
+        _container = container ?? buildContext(),
+        super(key: key);
 
   final String title;
+  final Future<AppContainer> _container;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
-
-  final Future<SolvisClient> _settings = SharedPreferences.getInstance()
-      .then((value) => SolvisClient.fromSettings(SolvisSettings(value)));
 
   @override
   void initState() {
@@ -49,9 +52,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
-    _settings.then((value) {
-      value.dispose();
-    });
+    widget._container.then((value) => value.close());
     super.dispose();
   }
 
@@ -64,11 +65,11 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<SolvisClient>(
-      future: _settings,
+    return FutureBuilder<AppContainer>(
+      future: widget._container,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (!snapshot.requireData.hasUrl) {
+          if (!snapshot.requireData.get<SolvisClient>().hasUrl) {
             ServerSettingsPage.open(context, snapshot.requireData);
           }
           return _buildMain(snapshot.requireData);
@@ -81,18 +82,19 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       });
   }
 
-  Widget _buildMain(SolvisClient _solvisClient) {
+  Widget _buildMain(AppContainer container) {
+    final _solvisClient = container.get<SolvisClient>();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () => ServerSettingsPage.open(context, _solvisClient),
+            onPressed: () => ServerSettingsPage.open(context, container),
           )
         ],
       ),
-      body: SolvisWidget(_solvisClient),
+      body: SolvisWidget(container),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           await _solvisClient.back();

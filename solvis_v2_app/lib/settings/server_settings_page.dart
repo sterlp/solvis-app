@@ -1,19 +1,19 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solvis_v2_app/settings/solvis_settings.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
 
 class ServerSettingsPage extends StatefulWidget {
-  static Future<void> open(BuildContext context, SolvisClient _solvisClient) {
+  static Future<void> open(BuildContext context, AppContainer _container) {
     return Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ServerSettingsPage(_solvisClient)),
+      MaterialPageRoute(builder: (context) => ServerSettingsPage(_container)),
     );
   }
 
-  final SolvisClient _solvisClient;
-  const ServerSettingsPage(this._solvisClient, {Key? key}) : super(key: key);
+  final AppContainer _container;
+  const ServerSettingsPage(this._container, {Key? key}) : super(key: key);
 
   @override
   _ServerSettingsPageState createState() => _ServerSettingsPageState();
@@ -23,18 +23,16 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
   final _userNameCtrl = TextEditingController();
   final _userPasswordCtrl = TextEditingController();
   final _serverUrlCtrl = TextEditingController();
-  final Future<SolvisSettings> _settings = SharedPreferences.getInstance()
-      .then((value) => SolvisSettings(value));
-
-  void _initEditController(SolvisSettings settings) {
-    _userNameCtrl.text = settings.user;
-    _userPasswordCtrl.text = settings.password;
-    _serverUrlCtrl.text = settings.url;
-  }
 
   @override
   void initState() {
     super.initState();
+    _initEditController(widget._container.get<SolvisSettingsDao>());
+  }
+  void _initEditController(SolvisSettingsDao settings) {
+    _userNameCtrl.text = settings.user;
+    _userPasswordCtrl.text = settings.password;
+    _serverUrlCtrl.text = settings.url;
   }
 
   @override
@@ -51,20 +49,11 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
       appBar: AppBar(
         title: const Text("Solvis V2 Einstellungen"),
       ),
-      body: FutureBuilder<SolvisSettings>(
-        future: _settings,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return _buildSettingsView(snapshot.requireData);
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        })
+      body: _buildSettingsView(),
     );
   }
 
-  ListView _buildSettingsView(SolvisSettings settings) {
-    _initEditController(settings);
+  ListView _buildSettingsView() {
     return ListView(
       children: [
         ListTile(
@@ -86,23 +75,24 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
         ),
         ListTile(
           title: ElevatedButton(
-              onPressed: () => _testServerConnection(settings),
+              onPressed: () => _testServerConnection(widget._container.get<SolvisSettingsDao>()),
               child: const Text('Einstellungen testen')),
         )
       ],
     );
   }
 
-  Future<void> _testServerConnection(SolvisSettings settings) async {
+  Future<void> _testServerConnection(SolvisSettingsDao settings) async {
     settings.url = _serverUrlCtrl.text;
     settings.password = _userPasswordCtrl.text;
     settings.user = _userNameCtrl.text;
+    final _solvisClient = widget._container.get<SolvisClient>();
 
     try {
-      widget._solvisClient.value = _serverUrlCtrl.text;
-      widget._solvisClient.newCredentials(_userNameCtrl.text, _userPasswordCtrl.text);
+      _solvisClient.value = _serverUrlCtrl.text;
+      _solvisClient.newCredentials(_userNameCtrl.text, _userPasswordCtrl.text);
 
-      final r = await widget._solvisClient.loadScreen();
+      final r = await _solvisClient.loadScreen();
       if (r.statusCode == 401) throw 'Falscher Benutzername oder Passwort.';
       else if (r.statusCode > 299) throw Exception('${r.statusCode} Verbindung fehlgeschlagen. ${r.body}');
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:solvis_v2_app/homescreen/bitmap_image.dart';
@@ -8,9 +9,9 @@ import 'package:solvis_v2_app/solvis/solvis_client.dart';
 import 'package:solvis_v2_app/util/event_counter.dart';
 
 class SolvisWidget extends StatefulWidget {
-  final SolvisClient _solvisClient;
+  final AppContainer _container;
 
-  const SolvisWidget(this._solvisClient, {Key? key}) : super(key: key);
+  const SolvisWidget(this._container, {Key? key}) : super(key: key);
 
   @override
   _SolvisWidgetState createState() => _SolvisWidgetState();
@@ -30,6 +31,7 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
 
   @override
   Widget build(BuildContext context) {
+    final solvisClient = widget._container.get<SolvisClient>();
     if (_errorCounter.isMaxReached) {
       cancelAutoRefresh();
       return Padding(padding: const EdgeInsets.all(16.0),
@@ -40,7 +42,7 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
               ElevatedButton.icon(onPressed: refresh,
                 icon: const Icon(Icons.refresh),
                 label: const Text('Nochmal versuchen')),
-              ElevatedButton.icon(onPressed: () => ServerSettingsPage.open(context, widget._solvisClient),
+              ElevatedButton.icon(onPressed: () => ServerSettingsPage.open(context, widget._container),
                 icon: const Icon(Icons.settings),
                 label: const Text('Einstellungen')),
             ]
@@ -57,17 +59,17 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
         ),
       );
     } else {
-      return _buildSolvisScreen();
+      return _buildSolvisScreen(solvisClient);
     }
   }
 
-  GestureDetector _buildSolvisScreen() {
+  GestureDetector _buildSolvisScreen(SolvisClient solvisClient) {
     return GestureDetector(
       onTapDown: (d) async {
         final p = _point(d.localPosition);
         _tapDownTime = DateTime.now().millisecondsSinceEpoch;
         if (p.x < maxWidth && p.y < maxHeight) {
-          await widget._solvisClient.touch(p.x, p.y);
+          await solvisClient.touch(p.x, p.y);
           _tapDownTime = DateTime.now().millisecondsSinceEpoch;
           HapticFeedback.lightImpact();
         }
@@ -79,7 +81,7 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
         if (delay < 500) delay = 500 - delay;
         else delay = 0;
 
-        await widget._solvisClient.confirm(delay: delay);
+        await solvisClient.confirm(delay: delay);
         HapticFeedback.lightImpact();
         refresh();
       },
@@ -96,7 +98,7 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
 
           if (x < 480 && y < 256) {
             HapticFeedback.lightImpact();
-            await widget._solvisClient.click(x, y);
+            await solvisClient.click(x, y);
             Timer(const Duration(milliseconds: 250), () async {
               await refresh();
               HapticFeedback.lightImpact();
@@ -126,7 +128,7 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
     // because Flutter is shit we have to play around with a state observer to
     // if we are currently really displayed or not
     WidgetsBinding.instance!.addObserver(this);
-    widget._solvisClient.addListener(refresh);
+    widget._container.get<SolvisClient>().addListener(refresh);
     refresh();
     autoRefresh();
   }
@@ -135,7 +137,7 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
     cancelAutoRefresh();
-    widget._solvisClient.removeListener(refresh);
+    widget._container.get<SolvisClient>().removeListener(refresh);
     super.dispose();
   }
 
@@ -161,7 +163,7 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
   Future<void> refresh() async {
     // debugPrint('refresh screen image ...');
     try {
-      final r = await widget._solvisClient.loadScreen();
+      final r = await widget._container.get<SolvisClient>().loadScreen();
       if (r.statusCode < 299) {
         _errorCounter.reset();
         autoRefresh();
