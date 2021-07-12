@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:solvis_v2_app/app_config.dart';
 import 'package:solvis_v2_app/settings/server_settings_page.dart';
-import 'package:solvis_v2_app/settings/solvis_settings.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
 import 'package:solvis_v2_app/homescreen/solvis_widget.dart';
 
@@ -44,8 +43,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    // because Flutter is shit we have to play around with a state observer to
-    // if we are currently really displayed or not
+    // because Flutter has no way to check by default if the app view is paused!
+    // "if we are currently really displayed or not"
     WidgetsBinding.instance!.addObserver(this);
   }
 
