@@ -8,12 +8,14 @@ import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
 import 'package:solvis_v2_app/homescreen/solvis_widget.dart';
 
+const title = 'Solvis V2 Control';
+
 Future<void> main() async {
   await SentryFlutter.init(
         (options) {
       options.dsn = 'https://c6f8f92f1f3949edb4ee00ae3147be80@o918803.ingest.sentry.io/5862420';
     },
-    appRunner: () => runApp(MyApp()),
+    appRunner: () => runApp(MyApp())
   );
 }
 
@@ -25,20 +27,35 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Solvis V2 Control'),
+      home: FutureBuilder<AppContainer>(
+          future: buildContext(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) return MyHomePage(snapshot.requireData, title: title);
+            else if (snapshot.hasError) {
+              Sentry.captureException(snapshot.error, hint: 'main start');
+              return Scaffold(
+                  appBar: AppBar(title: const Text(title)),
+                  body: Center(child: Text(snapshot.error.toString()))
+              );
+            } else {
+              return Scaffold(
+                  appBar: AppBar(title: const Text(title)),
+                  body: const Center(child: CircularProgressIndicator())
+              );
+            }
+          }
+      ),
+      //home: MyHomePage(_container, title: title),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
 
-  MyHomePage({Key? key, required this.title,
-      Future<AppContainer>? container}) :
-        _container = container ?? buildContext(),
-        super(key: key);
+  const MyHomePage(this._container, {Key? key, required this.title}) : super(key: key);
 
   final String title;
-  final Future<AppContainer> _container;
+  final AppContainer _container;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -57,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
-    widget._container.then((value) => value.close());
+    widget._container.close();
     super.dispose();
   }
 
@@ -70,21 +87,9 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<AppContainer>(
-      future: widget._container,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          if (!snapshot.requireData.get<SolvisClient>().hasUrl) {
-            ServerSettingsPage.open(context, snapshot.requireData);
-          }
-          return _buildMain(snapshot.requireData);
-        } else {
-          return Scaffold(
-            appBar: AppBar(title: Text(widget.title)),
-            body: const Center(child: CircularProgressIndicator())
-          );
-        }
-      });
+    if (!widget._container.get<SolvisClient>().hasUrl) ServerSettingsPage.open(context, widget._container);
+
+    return _buildMain(widget._container);
   }
 
   Widget _buildMain(AppContainer container) {
