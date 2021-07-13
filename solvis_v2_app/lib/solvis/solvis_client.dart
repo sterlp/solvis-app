@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:http_auth/http_auth.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solvis_v2_app/settings/solvis_settings.dart';
 
 import 'package:http_auth/http_auth.dart' as http_auth;
 
 class SolvisClient extends ValueNotifier<String> {
+
+  static const timeout = Duration(seconds: 2);
 
   SolvisClient(this._client, String _server) : super(_server);
   SolvisClient.fromSettings(SolvisSettingsDao settings)
@@ -35,22 +38,20 @@ class SolvisClient extends ValueNotifier<String> {
   */
 
   Future<Response> touch(int x, int y) async {
-    return _client.get(Uri.parse('http://$value/Touch.CGI?x=$x&y=$y'));
+    return _doGet('http://$value/Touch.CGI?x=$x&y=$y');
   }
 
   Future<Response> click(int x, int y) async {
-    await _client.get(Uri.parse('http://$value/Touch.CGI?x=$x&y=$y'));
+    await _doGet('http://$value/Touch.CGI?x=$x&y=$y');
     return confirm();
   }
 
   Future<Response> back() {
-    return _client.get(Uri.parse('http://$value/Taster.CGI?taste=links&i=49019573'));
+    return _doGet('http://$value/Taster.CGI?taste=links&i=49019573');
   }
 
   Future<Response> loadScreen() {
-    final uri = Uri.parse('http://$value/display.bmp');
-    debugPrint('loadScreen $uri ...');
-    return _client.get(uri);
+    return _doGet('http://$value/display.bmp');
   }
 
   Future<Response> confirm({int delay = 500}) async {
@@ -62,13 +63,24 @@ class SolvisClient extends ValueNotifier<String> {
       debugPrint('_delay ($timeInMs): $url');
       final result = Completer<Response>();
       Timer(Duration(milliseconds: timeInMs),
-              () => result.complete(
-              _client.get(Uri.parse(url)))
+              () => result.complete(_doGet(url))
       );
       return result.future;
     } else {
       return _client.get(Uri.parse(url));
     }
+  }
+
+  Future<Response> _doGet(String url) {
+    assert(url.isNotEmpty && url.length > 8, 'GET url in solvis HTTP client is empty or to short: $url');
+    Uri _uri;
+    try {
+      _uri = Uri.parse(url);
+    } catch (e) {
+      Sentry.captureException(e, hint: 'SolvisClient');
+      rethrow;
+    }
+    return _client.get(_uri).timeout(timeout);
   }
 
   @override

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solvis_v2_app/homescreen/bitmap_image.dart';
 import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
@@ -161,7 +162,7 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
   }
 
   Future<void> refresh() async {
-    // debugPrint('refresh screen image ...');
+    debugPrint('refresh screen image, error count: ${_errorCounter.eventCount} ...');
     try {
       final r = await widget._container.get<SolvisClient>().loadScreen();
       if (r.statusCode < 299) {
@@ -182,7 +183,7 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
       if (_errorCounter.count(e).isMaxNotReached) {
         autoRefresh();
       }
-      setState(() {});
     }
+    setState(() {});
   }
 }

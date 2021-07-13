@@ -2,13 +2,19 @@ import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solvis_v2_app/app_config.dart';
 import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
 import 'package:solvis_v2_app/homescreen/solvis_widget.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  await SentryFlutter.init(
+        (options) {
+      options.dsn = 'https://c6f8f92f1f3949edb4ee00ae3147be80@o918803.ingest.sentry.io/5862420';
+    },
+    appRunner: () => runApp(MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
