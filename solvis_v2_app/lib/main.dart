@@ -8,8 +8,6 @@ import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
 import 'package:solvis_v2_app/homescreen/solvis_widget.dart';
 
-const title = 'Solvis V2 Control';
-
 Future<void> main() async {
   await SentryFlutter.init(
         (options) {
@@ -19,33 +17,38 @@ Future<void> main() async {
   );
 }
 
+const title = 'Solvis V2 Control';
+
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Solvis V2 Control',
+      title: title,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: FutureBuilder<AppContainer>(
-          future: buildContext(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) return MyHomePage(snapshot.requireData, title: title);
-            else if (snapshot.hasError) {
-              Sentry.captureException(snapshot.error, hint: 'main start');
-              return Scaffold(
-                  appBar: AppBar(title: const Text(title)),
-                  body: Center(child: Text(snapshot.error.toString()))
-              );
-            } else {
-              return Scaffold(
-                  appBar: AppBar(title: const Text(title)),
-                  body: const Center(child: CircularProgressIndicator())
-              );
-            }
+        future: buildContext(),
+        builder: (context, snapshot) {
+          // load the first page or your page router
+          if (snapshot.hasData) return MyHomePage(snapshot.requireData, title: title);
+          else if (snapshot.hasError) {
+            // error screen
+            Sentry.captureException(snapshot.error, hint: 'main start');
+            return Scaffold(
+                appBar: AppBar(title: const Text(title)),
+                body: Center(child: Text(snapshot.error.toString()))
+            );
+          } else {
+            // Loading screen
+            return Scaffold(
+                appBar: AppBar(title: const Text(title)),
+                body: const Center(child: CircularProgressIndicator())
+            );
           }
+        }
       ),
-      //home: MyHomePage(_container, title: title),
     );
   }
 }
