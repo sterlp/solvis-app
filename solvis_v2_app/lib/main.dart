@@ -1,5 +1,6 @@
 import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -20,6 +21,11 @@ Future<void> main() async {
 const title = 'Solvis V2 Control';
 
 class MyApp extends StatelessWidget {
+  final Future<AppContainer> _container;
+
+  MyApp({Key? key, Future<AppContainer>? container}) :
+        _container = container ?? buildContext(),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +35,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: FutureBuilder<AppContainer>(
-        future: buildContext(),
+        future: _container,
         builder: (context, snapshot) {
           // load the first page or your page router
           if (snapshot.hasData) return MyHomePage(snapshot.requireData, title: title);
@@ -72,12 +78,15 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     // because Flutter has no way to check by default if the app view is paused!
     // "if we are currently really displayed or not"
     WidgetsBinding.instance!.addObserver(this);
+
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      if (!widget._container.get<SolvisClient>().hasUrl) ServerSettingsPage.open(context, widget._container);
+    });
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
-    widget._container.close();
     super.dispose();
   }
 
@@ -90,8 +99,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    if (!widget._container.get<SolvisClient>().hasUrl) ServerSettingsPage.open(context, widget._container);
-
     return _buildMain(widget._container);
   }
 
