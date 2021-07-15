@@ -70,15 +70,11 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
+class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
     super.initState();
-    // because Flutter has no way to check by default if the app view is paused!
-    // "if we are currently really displayed or not"
-    WidgetsBinding.instance!.addObserver(this);
-
     SchedulerBinding.instance!.addPostFrameCallback((_) {
       if (!widget._container.get<SolvisClient>().hasUrl) ServerSettingsPage.open(context, widget._container);
     });
@@ -86,15 +82,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    widget._container.close();
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      setState(() {});
-    }
   }
 
   @override

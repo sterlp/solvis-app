@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solvis_v2_app/homescreen/bitmap_image.dart';
 import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
