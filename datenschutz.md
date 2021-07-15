@@ -12,10 +12,17 @@ Im Folgenden will ich Sie darüber informieren welche personenbezogenen Daten be
 
 ## Benötigten Berechtigungen
 
-### INTERNET / Internetverbindng
+### INTERNET
 
-Zugriff auf die Heizung selber, es wir nur auf die IP zugegriffen die in den Einstellungen konfiguriert wird. Zugriff nur im Lokalen Netzwerk (Zuhause) möglich. 
-Die Solvis V2 ist nicht internetfähig.
+### HTTP Zugriff auf SolvisControl 2
+Zugriff auf die Heizung selber, es wir nur auf die IP zugegriffen die in den Einstellungen konfiguriert wird. 
+Zugriff nur im Lokalen Netzwerk (Zuhause) möglich. Da die SolvisControl 2 ist nicht internetfähig.
+
+#### Sentry
+Es wir der Dienst Sentry verwendet (Sentry, 1501 Mariposa St #408, San Francisco, CA 94107, USA), um die technische Stabilität der Solvis App zu überwachen. 
+Sentry dient alleine diesem Zweck und wertet keine Daten zu Werbezwecken aus. Die Daten der Nutzer, wie z.B. Angaben zum Gerät oder Fehlerzeitpunkt werden anonym erhoben 
+und nicht personenbezogen genutzt sowie anschließend gelöscht. 
+Weitere Informationen hierzu finden Sie in der Datenschutzerklärung von Sentry: https://sentry.io/privacy/ .
 
 ### VIBRATE
 
