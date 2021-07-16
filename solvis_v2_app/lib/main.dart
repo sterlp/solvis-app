@@ -1,13 +1,9 @@
 import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solvis_v2_app/app_config.dart';
-import 'package:solvis_v2_app/settings/server_settings_page.dart';
-import 'package:solvis_v2_app/solvis/solvis_client.dart';
-import 'package:solvis_v2_app/homescreen/solvis_widget.dart';
+import 'package:solvis_v2_app/homescreen/solvis_home_page.dart';
 
 Future<void> main() async {
   await SentryFlutter.init(
@@ -38,7 +34,7 @@ class MyApp extends StatelessWidget {
         future: _container,
         builder: (context, snapshot) {
           // load the first page or your page router
-          if (snapshot.hasData) return MyHomePage(snapshot.requireData, title: title);
+          if (snapshot.hasData) return SolvisHomePage(snapshot.requireData, title: title);
           else if (snapshot.hasError) {
             // error screen
             Sentry.captureException(snapshot.error, hint: 'main start');
@@ -58,61 +54,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-class MyHomePage extends StatefulWidget {
-
-  const MyHomePage(this._container, {Key? key, required this.title}) : super(key: key);
-
-  final String title;
-  final AppContainer _container;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  @override
-  void initState() {
-    super.initState();
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
-      if (!widget._container.get<SolvisClient>().hasUrl) ServerSettingsPage.open(context, widget._container);
-    });
-  }
-
-  @override
-  void dispose() {
-    widget._container.close();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildMain(widget._container);
-  }
-
-  Widget _buildMain(AppContainer container) {
-    final _solvisClient = container.get<SolvisClient>();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () => ServerSettingsPage.open(context, container),
-          )
-        ],
-      ),
-      body: SolvisWidget(container),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          await _solvisClient.back();
-          HapticFeedback.heavyImpact();
-        },
-        label: const Text('Zurück'),
-      ),
-    );
-  }
-}
-
-

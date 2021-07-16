@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:http_auth/http_auth.dart';
@@ -8,7 +9,7 @@ import 'package:solvis_v2_app/settings/solvis_settings.dart';
 
 import 'package:http_auth/http_auth.dart' as http_auth;
 
-class SolvisClient extends ValueNotifier<String> {
+class SolvisClient extends ValueNotifier<String> with Closeable {
 
   static const timeout = Duration(seconds: 2);
 
@@ -87,5 +88,11 @@ class SolvisClient extends ValueNotifier<String> {
   void dispose() {
     _client.close();
     super.dispose();
+  }
+
+  @override
+  Future<void> close() async {
+    super.dispose();
+    return;
   }
 }
