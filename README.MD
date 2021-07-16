@@ -1,4 +1,6 @@
-# Beaschreibung
+[![Flutter](https://github.com/sterlp/solvis-app/actions/workflows/Flutter.yml/badge.svg)](https://github.com/sterlp/solvis-app/actions/workflows/Flutter.yml)
+
+# Beschreibung
 
 Diese App erlaubt die Stuerung der Solvis Heizung mit dem Handy die mit einer SolvisControl 2 Steuerung ausgestattet ist. Die App eigenet sich nicht für die Steuerung einer Solvis Heizung mit SolvisControl 3, oder neuer.
 
