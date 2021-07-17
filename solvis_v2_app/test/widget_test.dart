@@ -80,7 +80,7 @@ void main() {
   testWidgets('Verify floating button visibility based on URL', (WidgetTester tester) async {
     initPrefsMock(mock, setNull: true);
 
-    var c = buildContext(Future.value(mock));
+    final c = buildContext(Future.value(mock));
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp(container: c));
