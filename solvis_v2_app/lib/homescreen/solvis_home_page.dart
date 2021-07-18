@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:solvis_v2_app/homescreen/solvis_widget.dart';
 import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
+import 'package:solvis_v2_app/util/loading_button.dart';
 
 class SolvisHomePage extends StatefulWidget {
 
@@ -56,15 +57,16 @@ class _SolvisHomePageState extends State<SolvisHomePage> {
     );
   }
 
-  FloatingActionButton? _buildReturnFloatingButton(SolvisClient _solvisClient) {
+  Widget? _buildReturnFloatingButton(SolvisClient _solvisClient) {
     if (_solvisClient.hasUrl) {
-      return FloatingActionButton.extended(
-        onPressed: () async {
-          await _solvisClient.back();
-          HapticFeedback.heavyImpact();
-        },
-        label: const Text('Zurück'),
-      );
+      return CircularLoadingButton(
+          const Text('<< Zurück'),
+          onPressed: () async {
+            await _solvisClient.back();
+            HapticFeedback.heavyImpact();
+            return;
+          },
+        );
     } else {
       return null;
     }
