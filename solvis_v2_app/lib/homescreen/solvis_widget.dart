@@ -161,28 +161,33 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
   }
 
   Future<void> refresh() async {
-    debugPrint('refresh screen image, error count: ${_errorCounter.eventCount} ...');
-    try {
-      final r = await widget._container.get<SolvisClient>().loadScreen();
-      if (r.statusCode < 299) {
-        _errorCounter.reset();
-        autoRefresh();
-        return decodeImageFromList(r.bodyBytes).then((i) =>
-            setState(() => _image = ImageEditor(i)));
-      } else {
-        if (r.statusCode == 401) {
-          const problem = 'HTTP 401: Falscher Benutzername oder Password!';
-          setState(() => _errorCounter.maxReached(problem));
+    final client  = widget._container.get<SolvisClient>();
+    if (client.hasUrl) {
+      debugPrint('refresh screen image, error count: ${_errorCounter.eventCount} ...');
+      try {
+        final r = await widget._container.get<SolvisClient>().loadScreen();
+        if (r.statusCode < 299) {
+          _errorCounter.reset();
+          autoRefresh();
+          return decodeImageFromList(r.bodyBytes).then((i) =>
+              setState(() => _image = ImageEditor(i)));
         } else {
-          throw '${r.statusCode}: ${r.body}';
+          if (r.statusCode == 401) {
+            _errorCounter.maxReached('HTTP 401: Falscher Benutzername oder Password!');
+          } else {
+            throw '${r.statusCode}: ${r.body}';
+          }
+          return;
         }
-        return;
+      } catch (e) {
+        if (_errorCounter.count(e).isMaxNotReached) {
+          autoRefresh();
+        }
       }
-    } catch (e) {
-      if (_errorCounter.count(e).isMaxNotReached) {
-        autoRefresh();
-      }
+    } else {
+      _errorCounter.maxReached('Kein URL für den Zugriff auf die Heizung konfiguriert!');
     }
+
     setState(() {});
   }
 }
