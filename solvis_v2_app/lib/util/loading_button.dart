@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 typedef FutureCallback = Future<void> Function();
 
@@ -43,7 +44,7 @@ class _CircularLoadingButtonState extends State<CircularLoadingButton> {
   }
 
   Future<void> _press() async {
-    Feedback.forTap(context);
+    HapticFeedback.mediumImpact();
     try {
       setState(() => _loading = true);
       await widget.onPressed!();

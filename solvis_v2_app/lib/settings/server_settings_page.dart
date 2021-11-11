@@ -1,13 +1,14 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:solvis_v2_app/settings/solvis_settings.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
 import 'package:solvis_v2_app/util/loading_button.dart';
 
 class ServerSettingsPage extends StatefulWidget {
   static Future<void> open(BuildContext context, AppContainer _container) {
-    Feedback.forTap(context);
+    HapticFeedback.mediumImpact();
     return Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ServerSettingsPage(_container)),
