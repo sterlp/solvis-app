@@ -3,9 +3,11 @@ import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/material.dart';
 import 'package:solvis_v2_app/settings/solvis_settings.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
+import 'package:solvis_v2_app/util/loading_button.dart';
 
 class ServerSettingsPage extends StatefulWidget {
   static Future<void> open(BuildContext context, AppContainer _container) {
+    Feedback.forTap(context);
     return Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ServerSettingsPage(_container)),
@@ -32,7 +34,8 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
   void _initEditController(SolvisSettingsDao settings) {
     _userNameCtrl.text = settings.user;
     _userPasswordCtrl.text = settings.password;
-    _serverUrlCtrl.text = settings.url;
+    if (settings.url.isEmpty) _serverUrlCtrl.text = 'solvisremote-19c555';
+    else _serverUrlCtrl.text = settings.url;
   }
 
   @override
@@ -74,15 +77,18 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
           subtitle: const Text('Server Adresse z.B. 192.168.178.35'),
         ),
         ListTile(
-          title: ElevatedButton(
-              onPressed: () => _testServerConnection(widget._container.get<SolvisSettingsDao>()),
-              child: const Text('Einstellungen testen')),
-        )
+          title: CircularLoadingButton(
+            label: const Text('Einstellungen testen'),
+            onPressed: _testServerConnection,
+          ),
+        ),
       ],
     );
   }
 
-  Future<void> _testServerConnection(SolvisSettingsDao settings) async {
+  Future<void> _testServerConnection() async {
+    final settings = widget._container.get<SolvisSettingsDao>();
+
     settings.url = _serverUrlCtrl.text;
     settings.password = _userPasswordCtrl.text;
     settings.user = _userNameCtrl.text;
@@ -97,30 +103,30 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
       else if (r.statusCode > 299) throw Exception('${r.statusCode} Verbindung fehlgeschlagen. ${r.body}');
 
       AwesomeDialog(
-          context: context,
-          dialogType: DialogType.SUCCES,
-          animType: AnimType.RIGHSLIDE,
-          headerAnimationLoop: false,
-          title: 'Erfolg',
-          desc: 'Verbindung erfolgreich.',
-          btnOkOnPress: () => Navigator.pop(context),
-          btnOkIcon: Icons.check_circle,
-          btnOkText: 'Schließen',
-          btnOkColor: Colors.green)
-          .show();
+        context: context,
+        dialogType: DialogType.SUCCES,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: 'Erfolg',
+        desc: 'Verbindung erfolgreich.',
+        btnOkOnPress: () => Navigator.pop(context),
+        btnOkIcon: Icons.check_circle,
+        btnOkText: 'Schließen',
+        btnOkColor: Colors.green,
+      ).show();
     } catch (e) {
       AwesomeDialog(
-          context: context,
-          dialogType: DialogType.ERROR,
-          animType: AnimType.RIGHSLIDE,
-          headerAnimationLoop: false,
-          title: 'Verbindungsfehler',
-          desc: e.toString(),
-          btnOkOnPress: () {},
-          btnOkText: 'Einstellungen ändern',
-          btnOkIcon: Icons.cancel,
-          btnOkColor: Colors.red)
-      .show();
+        context: context,
+        dialogType: DialogType.ERROR,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: 'Verbindungsfehler',
+        desc: e.toString(),
+        btnOkOnPress: () {},
+        btnOkText: 'Einstellungen ändern',
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Colors.red,
+      ).show();
     }
   }
 }

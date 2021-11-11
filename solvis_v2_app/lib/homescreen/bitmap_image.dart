@@ -3,7 +3,7 @@ import 'dart:ui' as ui show Image;
 import 'package:flutter/material.dart';
 
 class ImageEditor extends CustomPainter {
-  final Offset offset = const Offset(0.0, 0.0);
+  final Offset offset = Offset.zero;
   final ui.Image image;
   bool _redraw = true;
   ImageEditor(this.image);

@@ -10,7 +10,7 @@ Future<void> main() async {
         (options) {
       options.dsn = 'https://c6f8f92f1f3949edb4ee00ae3147be80@o918803.ingest.sentry.io/5862420';
     },
-    appRunner: () => runApp(MyApp())
+    appRunner: () => runApp(MyApp()),
   );
 }
 
@@ -39,17 +39,17 @@ class MyApp extends StatelessWidget {
             // error screen
             Sentry.captureException(snapshot.error, hint: 'main start');
             return Scaffold(
-                appBar: AppBar(title: const Text(title)),
-                body: Center(child: Text(snapshot.error.toString()))
+              appBar: AppBar(title: const Text(title)),
+              body: Center(child: Text(snapshot.error.toString())),
             );
           } else {
             // Loading screen
             return Scaffold(
-                appBar: AppBar(title: const Text(title)),
-                body: const Center(child: CircularProgressIndicator())
+              appBar: AppBar(title: const Text(title)),
+              body: const Center(child: CircularProgressIndicator()),
             );
           }
-        }
+        },
       ),
     );
   }

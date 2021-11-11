@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:solvis_v2_app/homescreen/bitmap_image.dart';
 import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
@@ -41,12 +40,12 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
               Text(_errorCounter.event?.toString() ?? ''),
               ElevatedButton.icon(onPressed: refresh,
                 icon: const Icon(Icons.refresh),
-                label: const Text('Nochmal versuchen')),
+                label: const Text('Nochmal versuchen'),),
               ElevatedButton.icon(onPressed: () => ServerSettingsPage.open(context, widget._container),
                 icon: const Icon(Icons.settings),
-                label: const Text('Einstellungen')),
-            ]
-          )
+                label: const Text('Einstellungen'),),
+            ],
+          ),
         );
     } else if (_image == null) {
       return Center(
@@ -69,9 +68,9 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
         final p = _point(d.localPosition);
         _tapDownTime = DateTime.now().millisecondsSinceEpoch;
         if (p.x < maxWidth && p.y < maxHeight) {
+          Feedback.forTap(context);
           await solvisClient.touch(p.x, p.y);
           _tapDownTime = DateTime.now().millisecondsSinceEpoch;
-          HapticFeedback.lightImpact();
         }
       },
       onTapUp: (d) async {
@@ -81,31 +80,11 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
         if (delay < 500) delay = 500 - delay;
         else delay = 0;
 
+        Feedback.forTap(context);
         await solvisClient.confirm(delay: delay);
-        HapticFeedback.lightImpact();
-        refresh();
+        if (mounted) refresh();
       },
       child: SizedBox.expand(child: CustomPaint(painter: _image)),
-      /*
-      onTap: () async {
-        if (_tabPosition != null && _image != null) {
-          // 480 x 256
-          debugPrint('tab scale: ${_image!.scale} x: ${_tabPosition!.dx} y: ${_tabPosition!.dy}');
-          final x = (_tabPosition!.dx * 2 / _image!.scale).round();
-          final y = (_tabPosition!.dy * 2 / _image!.scale).round();
-          debugPrint('x: $x');
-          debugPrint('y: $y');
-
-          if (x < 480 && y < 256) {
-            HapticFeedback.lightImpact();
-            await solvisClient.click(x, y);
-            Timer(const Duration(milliseconds: 250), () async {
-              await refresh();
-              HapticFeedback.lightImpact();
-            });
-          }
-        }
-      },*/
     );
   }
 
@@ -130,7 +109,6 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
     WidgetsBinding.instance!.addObserver(this);
     widget._container.get<SolvisClient>().addListener(refresh);
     refresh();
-    autoRefresh();
   }
 
   @override
@@ -145,13 +123,13 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       _errorCounter.reset();
-      autoRefresh();
+      refresh();
     } else cancelAutoRefresh();
   }
 
   void autoRefresh() {
     cancelAutoRefresh();
-    _refreshTimer = Timer(const Duration(milliseconds: 1500), refresh);
+    if (mounted) _refreshTimer = Timer(const Duration(milliseconds: 1000), refresh);
   }
   void cancelAutoRefresh() {
     if (_refreshTimer != null) {
@@ -161,6 +139,8 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
   }
 
   Future<void> refresh() async {
+    cancelAutoRefresh();
+
     final client  = widget._container.get<SolvisClient>();
     if (client.hasUrl) {
       debugPrint('refresh screen image, error count: ${_errorCounter.eventCount} ...');
@@ -169,8 +149,9 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
         if (r.statusCode < 299) {
           _errorCounter.reset();
           autoRefresh();
-          return decodeImageFromList(r.bodyBytes).then((i) =>
-              setState(() => _image = ImageEditor(i)));
+          return decodeImageFromList(r.bodyBytes).then((i) {
+            if (mounted) setState(() => _image = ImageEditor(i));
+          });
         } else {
           if (r.statusCode == 401) {
             _errorCounter.maxReached('HTTP 401: Falscher Benutzername oder Password!');
@@ -188,6 +169,6 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
       _errorCounter.maxReached('Kein URL für den Zugriff auf die Heizung konfiguriert!');
     }
 
-    setState(() {});
+    if (mounted) setState(() {});
   }
 }

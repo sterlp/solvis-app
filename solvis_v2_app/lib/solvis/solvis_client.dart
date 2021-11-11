@@ -63,9 +63,7 @@ class SolvisClient extends ValueNotifier<String> with Closeable {
     if (timeInMs > 0) {
       debugPrint('_delay ($timeInMs): $url');
       final result = Completer<Response>();
-      Timer(Duration(milliseconds: timeInMs),
-              () => result.complete(_doGet(url))
-      );
+      Timer(Duration(milliseconds: timeInMs), () => result.complete(_doGet(url)),);
       return result.future;
     } else {
       return _client.get(Uri.parse(url));

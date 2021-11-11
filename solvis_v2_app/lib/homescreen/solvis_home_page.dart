@@ -1,7 +1,6 @@
 import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:solvis_v2_app/homescreen/solvis_widget.dart';
 import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
@@ -23,10 +22,13 @@ class _SolvisHomePageState extends State<SolvisHomePage> {
   @override
   void initState() {
     super.initState();
+    final client = widget._container.get<SolvisClient>();
     SchedulerBinding.instance!.addPostFrameCallback((_) {
-      if (!widget._container.get<SolvisClient>().hasUrl) ServerSettingsPage.open(context, widget._container);
+      if (!client.hasUrl) ServerSettingsPage.open(context, widget._container);
     });
-    widget._container.get<SolvisClient>().addListener(() => setState(() {}));
+    client.addListener(() {
+      if (mounted) setState(() {});
+    });
   }
 
   @override
@@ -37,10 +39,7 @@ class _SolvisHomePageState extends State<SolvisHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildMain(widget._container);
-  }
-
-  Widget _buildMain(AppContainer container) {
+    final container = widget._container;
     final _solvisClient = container.get<SolvisClient>();
     return Scaffold(
       appBar: AppBar(
@@ -60,13 +59,13 @@ class _SolvisHomePageState extends State<SolvisHomePage> {
   Widget? _buildReturnFloatingButton(SolvisClient _solvisClient) {
     if (_solvisClient.hasUrl) {
       return CircularLoadingButton(
-          const Text('<< Zurück'),
-          onPressed: () async {
-            await _solvisClient.back();
-            HapticFeedback.heavyImpact();
-            return;
-          },
-        );
+        icon: const Icon(Icons.arrow_back_ios),
+        label: const Text('Zurück'),
+        onPressed: () async {
+          await _solvisClient.back();
+          return;
+        },
+      );
     } else {
       return null;
     }
