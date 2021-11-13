@@ -1,0 +1,1675 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="WebApp-SolvisRemote">
+<title id="tIndexTitle" class="transtext">Solvis Temperaturen</title>
+<link rel="icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8AGgDiABoA4gAaAOIEGgDioBoA4fsaAOiKGgDrABsYDAsbFxlyGxcasRsXGskbFxqpGxcaRRsXGgAbFxoAGxcaABoA4gAaAOIJGgDitBoA4vsaAOaIGgLUHBsPXwEbFxoOGxca6xsXGv8bFxr9Gxca/xsXGvsbFxpAGxcaABsXGgEaAOIAGgDiehoA4v8aAONWGgDsABsQUgD///8AGxcaABsXGkcbFxpQGxcaaxsXGvobFxr/Gxcahf///wAbFxoBGgDiKRoA4v0aAOJuGgDsABoHqAAbFxUA////ABsXGgAbFxpJGxcayxsXGvQbFxr/Gxca/xsXGl3///8A////ABoA4o4aAOLuGgDkAhoA4wAbEkMAGxgRAP///wAbFxoKGxca3hsXGv8bFxrzGxcasRsXGmUbFxoB////AP///wAaAOLZGgDirBoA5AAaAdsAGxQxABsYFAD///8AGxcaBhsXGs8bFxr/Gxca2RsXGoUbFxqRGxcaBv///wD///8AGgDi9BoA4nMaAOIAGgDvABsLhQAbGA0AGxcaABsXGgAbFxpLGxca6xsXGv8bFxr/Gxca/xsXGjcbGA0AGxgSARoA4vAaAOJkGgDiABoA5QAaAdoAGxQvABsYFQAbFxoAGxcaABsXGiEbFxpkGxcabRsXGkIbFxoJGwx9ABoGrgAaAOLPGgDihhoA4gAaAOIAGgDwABsKjAAbGQcAGxcYABsXGgAbFxYAGxgQABsZCQAbEVMAGgPOABoA8ggaAOxuGgDifxoA4scaAOIAGgDiABoA5AAaAeIAGw5mABsXGQAbGBAAGxUrABsSSwAbC4AAGgDiABoA6gAaAOI8GgDiwxoA4hMaAOLVGgDiHBoA4gAaAOIAGgDlABoA6gAaBL4AGgarABoC0gAaAOoAGgDuABoA5AAaAOIAGgDifhoA4kcaAOIAGgDiYxoA4rcaAOIIGgDiABoA4gAaAOIAGgDpABoA7AAaAOYAGgDiABoA4gAaAOIAGgDiShoA4pQaAOIAGgDiABoA4gAaAOKdGgDiphoA4gQaAOIAGgDiABoA4gAaAOIAGgDiABoA4gAaAOIAGgDiPBoA4rEaAOIXGgDiABoA4gAaAOIAGgDiABoA4moaAOKkGgDiaRoA4hgaAOIAGgDiABoA4gkaAOI3GgDihRoA4nkaAOIUGgDiABoA4gAaAOIAGgDiABoA4gAaAOIAGgDiHxoA4nsaAOKgGgDimhoA4pQaAOKYGgDiiRoA4jYaAOIAGgDiABoA4gAaAOIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==" />
+<style type="text/css">
+#container{
+	width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+}
+.logo
+{
+	color:#000;
+	font: 26px Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+
+#button_container {
+  text-align:center;
+
+}
+
+#button_container ul {
+  	margin-left: auto;
+	margin-right: auto;
+	padding:0;
+}
+
+#button_container li {
+  display:inline;
+  margin-right:10px;
+  margin-top:10px;
+  padding-top:8px;
+  padding-bottom:8px;
+  padding-left:2px;
+  padding-right:2px;
+}
+.footer {
+	font-size: 14px !important;
+	font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+	line-height: 16px;
+}
+.footer a {
+	color: #000;
+	font-size: 14px !important;
+	border-bottom: 1px dotted; 
+	text-decoration: none;
+}
+.footer_resize {
+	margin:0 auto;
+	padding:12px 24px;
+	width:960px;
+}
+.transtext
+{
+	visibility: hidden;
+}
+.button {
+        height: 35px;
+        width: 125px;
+        font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+        font-size: 20px;
+		text-decoration: none;
+		text-align:center;
+		line-height: 32px;
+        color: #000000;
+        border: none;
+        display:inline-block;
+		background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH0AAAAjCAYAAAC5BAWiAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABGFJREFUeNrsm71u1TAUgI+9dOUNujF2R2JoVVUXIR6CP6kMbJV4CCQ2BoSKeAVWtg5IfQe2vkHXLjbHjo99/JN7kzQ3yQ2uZNlxHKf153O+9KYV4L5+/Pz2FKsrIcRGSnmMNWANVEspsC1twUPXFr5fYhvYNbxkfXgjYfp87fqlcG3eT/dqvk/fpnncCeHuz/voIpkc+/Npm40Z/KU16JZjrbXvo8qfNeNobFLb6+x5moPays9hr1W6mY+NxXKP426UUp/PTje3/udE4O+x+ooLcBQgS0jBm/VoaulhpEBL0KP+LsCFSODm8O0GGwK8Bf4o0LsAZ9AV2wQlyH6MP89BY62AQdZhAyg61s14cylSx7kuz89eXAsE/gz7/uACyBxyCXaIdBPlZqn82C3RTue7APegpZ19K3Bg2QNYXQLOQaeA9wk8bafAaVNoFvEcuM8KLLJDNKsycNv2wGkzPSD6E1xW+GTWB2xK5ZFGpVlwAIJfAM6ijUdfVvxYBpyvMwcuAnCLhAHn0SxaIjU+s3/gWVep3QM4zwwEN9pQ/YGbcoTlytA8baKQQKRRGkc3gPAgPGAW2VCCncCBBHSU1osejyNZJLBEKVULaPU4jO3xBDJEwHKPx0MTj7u5snRfiHbNnwsifbgqBk7zbExKf5J6N0/twDweNkYr4DTau3qcNlSUjiXEvAZ6vPDgNspXV497Hrp4nU4in3vcP7hBnN4hywaxxyEB7sqxbH/4giy1h7QOkafb0jkteFePg8/kTCstHk/9vc3jJfhTeBx2pHX+AAcFj0PmcYif9EtpXcdpvQReLt3jYqke35HiF+TxAvS5PQ5wmB4vRPmCPc5+19cmaAd6vBDZgzzOfh+vHt+bxyN1yMEe3/YAx4GLlXu8kMqX6HHaVCqGnsIeyeNi5R7nkbdgj2umDdnm8QBqu8cz8NXjk3vcz7XF481n84oy4+M83vtFylQeB/hvPG6jfIfHadMpHCtX6/F9fq5+gB7nG0GO5XEPvnp8No8XwWdp3kX6GB4346rH5/U4j+7U44q9h5fx+/Hq8UV7HIZ73N5BuUivHj8gj6uOHnf3io4dcBvpcbqtHp/V46DH8XiW5tnzQeP0EHmr8fge0vokHmfAx/Y4ODWYU3KVHp/i79wGeBwm93hI6+awGapMNq8en8rjenKPK38/gNCWk3ocqsfn8jhFunX6pB4X1eNpWp/K480mUDbdy+rxGTyupve41wp/y1Y9vm6P8xc1ss8fOMbnq8cPyeOmX7msIft43Pt8h8cBqsfn9niArVy6j164jO/x7N+QWjwO1eN78zgBj9+/a/oYVtz19XgA+ziPixV5XC/c41Rw7L3Jxb/7etziqh6PXbtQjzPY1L4xkf4F536oHl+nx30WMN+NNv+trD/LzcWrv7jIH7Govh6PQVWPL9njmFke8OLLd28+3FpyF+cvr7F6jsv5C0Hfd/V4o+7q8YV7/A7Hfsf65O3rS8MZ/gkwAE+UMoMoJSMsAAAAAElFTkSuQmCC);
+        cursor: pointer;
+}
+.button:hover {
+        height: 35px;
+        width: 125px;
+        font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+        font-size: 20px;
+        color: #FFFFFF;
+        border: none;
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH0AAAAjCAYAAAC5BAWiAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA+hJREFUeNrsm7+O1DAQxr8ZCipaJMQbXHnlVTwGSPAOV9JAcbQUvAPFvQZPsB30J7FCor2KJoOd2M7Ecf7tZpMo50jZJOOxs+tvZn7ZbJZgli+vXj43m1uzfmDgioSICWBQuZLdF7OSOjbOJAjHVPrarbMTVfuk7K6NQPVx1A/KTsagfeHthZTjVsfirNonsRXtX4+FyDdeuux6kRE2CRb3Dqi29G1F9ZfyM0uwh1XQtFO1LVxv83osgHvjcff2+PBIRvAXxv7DrNd2SBYvKuGZmxb24lhxfTD0CB6EploMdmfnhuBK4BAQCMGifbTgIN9npOBO9KUEj+19glc2SYjse1JScJSidgsureAQ638w7TdWi88pwdl95IbgPvPVpNVB4bMzJaoXHKMEb76q7O8QHC2hI7k2ITiC4KkK0Ce4b5DkOcYIXgWIGe7a7N9aHd4hZGgzE9lPgJ9o8tnsS7cWPxKb4pKOdKlOCO77AlEgkBaM2tkcTQkFwZEUHIsKTi0fQZeYUvtbzbldDUphpZn5+lxxliMERIlwvOZIEFYTn+a4CoQwuRKVZmpltJ5WVoI3JCFplXV4jiPF5WGOd0k0RtwpiwyF0QiO6wAphWVSoaA5TnExUxzX/qIqQGm94pC5UflmdcEFL8QAxzWLocp6OwCkNSWUCqSI45Mu3JoUXaSsYwLHU+NJlOspjssAx5uoSF70EW+d43Vl3yfHcXmOt2x8MY5jHo6TyK45Lstw3GV51YsvxnEZy3Fkjl+e441g4ZM5rsv6WRynzPHLc7xxzCdzPMnqLXAcmeNxWY/KPu+P45I5HnG83oor72dyHJnjq3McIzhuhazL+5kcp8zx1TkuIzgu6nw8xHHKHN8Fx72fKu/dHKeRHEfm+OocRw/HizCu/54+A8cpc3x1jksPx73ghb6QG+I4Msd7y/rWOR7azHvlsRznzPF0Wd8ix1tlXVWGcBs2c3wjHMc8HCe0OF4oFHDm+JY4LuM4jukct+P5x6t4SxzHzjmOiNcnc5zGcTz0JVG+Ut2B3QrHaeccr8r6MMcxE8e9yL5ilA9Hiv6enjm+GY7LBThud0TfkcscX5bjWIHjRZnl4n9azRxfmuPFChx3D824mzOZ40+C4+7PDtWzE1M4joU5jszx2TheKHTwFI7TwhynzPHZOB4Corr3njn+FDhe46J6XEoyx/fPcW/3P63+yhxfjuNYieMhEEiOtrx/zxxfjuOyEsfV35Xv7dv8ZtbDKRxH5vjqHA9jD3C8bCcczOEdv//98M+c542xfzUcP07hOGeOn8FxmoXjBQ1y3Hb/acr6R9N88+nP38f/AgwALOxkWbDuPSkAAAAASUVORK5CYII=);
+        cursor: pointer;
+}
+.button:active {
+        height: 35px;
+        width: 125px;
+        font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+        font-size: 20px;
+        color: #aaaaaa;
+        border: none;
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH0AAAAjCAYAAAC5BAWiAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABCJJREFUeNrsm09u1DAUxt9ziwQqsEJISCxY9QJsWXED9t1ygi5RV4glEoeouAZcgAPAulLVSuxKhQr1hz2xnWfHTtNOJhkie+Qm8b8k/t57P0+mYTLp/bOn983m0OQDk/dNVlTTktKJyccmfzg6Pb9gI/hDc/DV5Jd1bhafvpn8atf8eecFV2BSbN2c3Ydox2S7Z8vbbdPWbjm0pyirVZ0ohytbHcm2HOp92aqU23AT2upmp+mD0Fq2oXAOhHKCby/r2365xANmEAPKIY6wunhEbeQWyShYXTVWFVAcxoLMQLvPvhxRm0toOsMVXROszoe7LqQ3oggBlReORLkTgq1xJIKnwivuCirbkDzOCJ4aUVMOYTQsRM5tWQhOWcFL4o4rOLeCZ4TOC297NiaPSHAWYqKpE+bs67QzFn+8x4qe8D0601e22YEd+Tklgigx8Yo5EZyC4CxFBFqRmKM67kw2R4JHkjASsV25loKjI1B2C+6ViEeOnSjWuDMxegWPIoIXVrEwBenh8dV7L9eR6bgxTN0DDsu0/bDnRQyeC+FNXghIg+AQCVae6kM5Jx4IyhgAOlPCOUPyHq3RzpuzeL5JcKKMgWw2rFM2rLsrYGRMNSd86+tgDiNF3gyKymVY70aMzvWqILpyghO17FWJIUgeK8lk7jLdC64y5SWOdwVrdyTHc23SsL09HO+Es0gcSgSXHM+3KQuOJBpod1Op8Cr1NpV4fuCrWLilXI09tSCw9NwejlPKcSCiNxcFShduZY5PunC7Fcc5FOYXbogWbpQgAUlbKXhW9NE5jqEcp8rxDXE8Migg7+m34rgM62txnCvHN8RxiL4FT78lx7Os3gaOU+V4EtaL4X05HEfleO7hDXKefkeOU+X47BynHo6HYy6s3u/Cca4cn53j6OF4b3gvcZwrx/9rjss+XdELHOeBHKfK8dk5Th2OIwiui6v3NTjOleOzc7xjLMzJN/jU02/gOFWO94b17eS4OB8KTO/juKoc7/19fKs4noT19L7iZ++V4zNznMbhOJMQvBlXZ8N75fgWcBzDOE7DON4KLqau+5VtXo7TwjlOoHE4zsM4Hvoy+n9anZPjvHCON2H9Zo7TSBxvDAIiYmRFrxzfBo5jRI77chnf48ewleOTcJwm5Lh2Hl/w9MrxqTiuJ+R4CPHoYXrl+LI4bj8a8f10F3I9HKeJOU6V42tz3I+jufhwpp/jPDHHuXJ8bY7rvn+iqBxfLsd15vd0Tc7SKseXx3GduTer7Q+78xu6cnwCjtPEHPeGcN2e/cSKbt9bpp/6D13iejVw5fjmOI6JOX7tBBeiH9u3Vj+a/Ma+xnravNU4xswNA+g2J2ywD2a7Vvt++oedLxe//r5+tPfZhfoXJj+mmpaUbBD4bvInk98enZ5f/hNgAKrHTQwjXpL5AAAAAElFTkSuQmCC);
+        cursor: pointer;
+}
+.button:focus {
+        height: 35px;
+        width: 125px;
+        font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+        font-size: 20px;
+        color: #FFFFFF;
+        border: none;
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH0AAAAjCAYAAAC5BAWiAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA+hJREFUeNrsm7+O1DAQxr8ZCipaJMQbXHnlVTwGSPAOV9JAcbQUvAPFvQZPsB30J7FCor2KJoOd2M7Ecf7tZpMo50jZJOOxs+tvZn7ZbJZgli+vXj43m1uzfmDgioSICWBQuZLdF7OSOjbOJAjHVPrarbMTVfuk7K6NQPVx1A/KTsagfeHthZTjVsfirNonsRXtX4+FyDdeuux6kRE2CRb3Dqi29G1F9ZfyM0uwh1XQtFO1LVxv83osgHvjcff2+PBIRvAXxv7DrNd2SBYvKuGZmxb24lhxfTD0CB6EploMdmfnhuBK4BAQCMGifbTgIN9npOBO9KUEj+19glc2SYjse1JScJSidgsureAQ638w7TdWi88pwdl95IbgPvPVpNVB4bMzJaoXHKMEb76q7O8QHC2hI7k2ITiC4KkK0Ce4b5DkOcYIXgWIGe7a7N9aHd4hZGgzE9lPgJ9o8tnsS7cWPxKb4pKOdKlOCO77AlEgkBaM2tkcTQkFwZEUHIsKTi0fQZeYUvtbzbldDUphpZn5+lxxliMERIlwvOZIEFYTn+a4CoQwuRKVZmpltJ5WVoI3JCFplXV4jiPF5WGOd0k0RtwpiwyF0QiO6wAphWVSoaA5TnExUxzX/qIqQGm94pC5UflmdcEFL8QAxzWLocp6OwCkNSWUCqSI45Mu3JoUXaSsYwLHU+NJlOspjssAx5uoSF70EW+d43Vl3yfHcXmOt2x8MY5jHo6TyK45Lstw3GV51YsvxnEZy3Fkjl+e441g4ZM5rsv6WRynzPHLc7xxzCdzPMnqLXAcmeNxWY/KPu+P45I5HnG83oor72dyHJnjq3McIzhuhazL+5kcp8zx1TkuIzgu6nw8xHHKHN8Fx72fKu/dHKeRHEfm+OocRw/HizCu/54+A8cpc3x1jksPx73ghb6QG+I4Msd7y/rWOR7azHvlsRznzPF0Wd8ix1tlXVWGcBs2c3wjHMc8HCe0OF4oFHDm+JY4LuM4jukct+P5x6t4SxzHzjmOiNcnc5zGcTz0JVG+Ut2B3QrHaeccr8r6MMcxE8e9yL5ilA9Hiv6enjm+GY7LBThud0TfkcscX5bjWIHjRZnl4n9azRxfmuPFChx3D824mzOZ40+C4+7PDtWzE1M4joU5jszx2TheKHTwFI7TwhynzPHZOB4Corr3njn+FDhe46J6XEoyx/fPcW/3P63+yhxfjuNYieMhEEiOtrx/zxxfjuOyEsfV35Xv7dv8ZtbDKRxH5vjqHA9jD3C8bCcczOEdv//98M+c542xfzUcP07hOGeOn8FxmoXjBQ1y3Hb/acr6R9N88+nP38f/AgwALOxkWbDuPSkAAAAASUVORK5CYII=);
+        cursor: pointer;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.4);
+  transition: opacity 400ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 170px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 380px;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+#close {
+  position: absolute;
+  top: 1px;
+  right: 10px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+#close:hover {
+  color: red;
+}
+.popup .note {
+  font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+  max-height: 30%;
+  overflow: auto;
+}
+
+
+</style>
+</head>
+
+<script type="text/javascript">
+
+//var
+{
+var change;
+
+var txshortMonths=([[ "Jan", "Feb", "März", "Apr", "Mai", "Juni", "Juli", "Aug", "Sep", "Okt", "Nov", "Dez" ],[ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" ],[ "Jan", "Feb", "Maart", "Apr", "Mei", "Juni", "Juli", "Aug", "Sep", "Okt", "Nov", "Dec" ]]);
+var txWeekdays=([[ "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" ],[ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ],[ "Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag" ]]);
+var txSensoren=(["Sensoren","sensors","Sensoren"]);
+var txxDateFormat=(["%A %d.%b.%Y  %H:%M","%A %b %d,%Y  %H:%M","%A %d.%b.%Y  %H:%M"]);
+var txSP1=(["SP1","SP1","ZP1"]);
+var txSP2=(["SP2","SP2","ZP2"]);
+var txPu=(["Pu","pu","Po"]);
+var txBr=(["Br","bu","Br"]);
+var txWWPuffer=(["WW-Puffer","hw-store","Boiler bovenin"]);
+var txReferenz=(["Referenz","reference","Boilerreferentie"]);
+var txSolarvorlauf=(["Solarvorlauf","solar flow temp","Zonne-AV"]);
+var txKollektor=(["Kollektor","collector","Collector"]);
+var txSolarpumpe1=(["Solarpumpe 1","solar pump 1","Zonnec.-pomp 1"]);
+var txSolarpumpe2=(["Solarpumpe 2","solar pump 2","Zonnec.-pomp 2"]);
+var txHeizungspufferoben=(["Heizungspuffer oben","heat.buffer top","V.buffer boven"]);
+var txHeizungspufferunten=(["Heizungspuffer unten","heat.buffer bottom","V.buffer onder"]);
+var txVorlaufHK1=(["Vorlauf HK 1","hc flow temp 1","Aanvoer VC 1"]);
+var txVorlaufHK2=(["Vorlauf HK 2","hc flow temp 2","Aanvoer VC 2"]);
+var txVorlaufHK3=(["Vorlauf HK 3","hc flow temp 3","Aanvoer VC 3"]);
+var txAußentemperatur=(["Außentemperatur","outdoor temperature","Buitentemp."]);
+var txPumpeHK1=(["Pumpe HK 1","hc pump 1","Pomp VC 1"]);
+var txPumpeHK2=(["Pumpe HK 2","hc pump 2","Pomp VC 2"]);
+var txPumpeHK3=(["Pumpe HK 3","hc pump 3","Pomp VC 3"]);
+var txBrenner=(["Brenner","burner","Brander"]);
+var txWarten=(["Bitte warten ... Daten werden geladen","Loading data... please wait","Wacht alstublieft... records worden geladen"]);
+var txEin=(["Ein","on","In"]);
+var txAus=(["Aus","off","Uit"]);
+
+var options1;
+
+var lang;
+var langflag;
+
+var hh,mm,ss,DD,MM,YY;   //,wd;
+var TIMESTAMP_START_TIME_YEAR = 2010;
+//var FIRST_LEAP_YEAR = 2012;
+
+var grafik;
+var grafik_alt;
+
+var request;
+
+// Eingänge
+var ts1;
+var ts_alt;
+var S1=[];
+var S3=[];
+var S4=[];
+var S5=[];
+var S8=[];
+var S9=[];
+var S10=[];
+var S12=[];
+var S13=[];
+var S16=[];
+
+// Ausgänge:
+var SP1=[];
+var SP2=[];
+var A3=[];
+var A4=[];
+var A5=[];
+var A12=[];
+
+var statusEinText = "Ein";
+var statusAusText = "Aus";
+			
+
+var XMLHttpFactories =
+[
+  function () {return new XMLHttpRequest()}, 
+  function () {return new ActiveXObject("Msxml2.XMLHTTP")}, 
+  function () {return new ActiveXObject("Msxml3.XMLHTTP")}, 
+  function () {return new ActiveXObject("Microsoft.XMLHTTP")}
+];
+
+
+}
+
+function prepare_Add()
+{
+	chart1.destroy();
+	chart1 = new Highcharts.Chart(options1);
+	chart1.xAxis[0].setExtremes();
+//	chart1.yAxis[0].setExtremes(0,125);
+	chart1.yAxis[1].setExtremes(0,100);
+	chart1.yAxis[2].setExtremes(0,100);
+	
+	change = {
+    0: txAus[langflag],
+    100: txEin[langflag]
+};	
+
+}
+
+function FSpeicher()
+{
+
+	prepare_Add();
+		chart1.yAxis[1].update({
+					labels:
+					{
+						enabled: false
+					},
+					title: 
+					{
+						text: ' '
+					}
+				});
+		chart1.yAxis[2].update({
+					labels:
+					{
+						enabled: false
+					},
+					title: 
+					{
+						text: ' '
+					}
+				});
+		chart1.addSeries
+		(
+		{ //S1
+			name: txWWPuffer[langflag],
+			tooltip: 
+			{
+				useHTML: true,
+				valueSuffix: ' °C'
+			},
+			color: '#c31924',
+			type: 'line',
+			data: S1,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+			legend: 
+			{
+			visibility:'hidden'
+			}
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //S4
+			name: txHeizungspufferoben[langflag],
+			tooltip: 
+			{
+				useHTML: true,
+				valueSuffix: ' °C'
+			},
+			color: '#d18f27',
+			type: 'line',
+			data: S4,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+			legend: 
+			{
+			visibility:'hidden'
+			}
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //S9
+			name: txHeizungspufferunten[langflag],
+			tooltip: 
+			{
+				useHTML: true,
+				valueSuffix: ' °C'
+			},
+			color: '#a00584',
+			type: 'line',
+			data: S9,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+			legend: 
+			{
+			visibility:'hidden'
+			}
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //S3
+			name: txReferenz[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' °C'
+			},
+			color: '#4674bc',
+			type: 'line',
+			data: S3,
+			yAxis: 0,
+			lineWidth: 2,
+		},false
+		);
+	chart1.redraw();
+}
+
+function FSolar()
+{
+
+	prepare_Add();
+		chart1.yAxis[1].update({
+					labels:
+					{
+						enabled: true,
+						formatter: function() {
+							return this.value+'%';
+							},
+					},
+					title: 
+					{
+						text: txSP1[langflag]
+					},
+					visible: true,
+				});
+		chart1.yAxis[2].update({
+					labels:
+					{
+						enabled: true,
+						formatter: function() {
+							return this.value+'%';
+							},
+					},
+					title: 
+					{
+						text: txSP2[langflag]
+					},
+					visible: true,
+				});
+		chart1.addSeries
+		(
+		{ //S1
+			name: txWWPuffer[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' °C'
+			},
+			color: '#C31924',
+			type: 'line',
+			data: S1,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+		},false
+		);
+
+
+		chart1.addSeries
+		(
+		{ //S3
+			name: txReferenz[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' °C'
+			},
+			color: '#4674bc',
+			type: 'line',
+			data: S3,
+			yAxis: 0,
+			lineWidth: 2,
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //S5
+			name: txSolarvorlauf[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' °C'
+			},
+			color: '#d18f27',
+			type: 'line',
+			data: S5,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //S8
+			name: txKollektor[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' °C'
+			},
+			color: '#555559',
+			type: 'line',
+			data: S8,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //SP1
+			name: txSolarpumpe1[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' %'
+			},
+			color: '#555559',
+			type: 'line',
+			data:SP1,
+			yAxis: 1,
+			lineWidth: 2,
+			visible:true,
+		},false
+
+		);
+		chart1.addSeries
+		(
+		{ //SP2
+			name: txSolarpumpe2[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' %'
+			},
+			color: '#c31924',
+			type: 'line',
+			data:SP2,
+			yAxis: 2,
+			lineWidth: 2,
+			visible:true,
+		},false
+		);
+	chart1.hideLoading();
+	chart1.redraw();
+}
+
+function FHK1()
+{
+	prepare_Add();
+		chart1.yAxis[1].update({
+					labels:
+					{
+						enabled: true,
+						formatter: function() {
+							var value = change[this.value];
+							return value !== 'undefined' ? value : this.value;
+							},
+					},
+					title: 
+					{
+						text: txPu[langflag]
+					}
+				});
+		chart1.yAxis[2].update({
+					labels:
+					{
+						enabled: true,
+						formatter: function() {
+							var value = change[this.value];
+							return value !== 'undefined' ? value : this.value;
+							},
+					},
+					title: 
+					{
+						text: txBr[langflag]
+					}
+				});
+
+		chart1.addSeries
+		(
+		{ //S12
+			name: txVorlaufHK1[langflag],
+			tooltip: 
+			{
+				useHTML: true,
+				valueSuffix: ' °C'
+			},
+			color: '#555559',
+			type: 'line',
+			data: S12,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //S4
+			name: txHeizungspufferoben[langflag],
+			tooltip: 
+			{
+				useHTML: true,
+				valueSuffix: ' °C'
+			},
+			color: '#d18f27',
+			type: 'line',
+			data: S4,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+			legend: 
+			{
+			visibility:'hidden'
+			}
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //S10
+			name: txAußentemperatur[langflag],
+			tooltip: 
+			{
+				useHTML: true,
+				valueSuffix: ' °C'
+			},
+			color: '#639b39',
+			type: 'line',
+			data: S10,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+			legend: 
+			{
+			visibility:'hidden'
+			}
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //A3
+			name: txPumpeHK1[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' %'
+			},
+			color: '#555559',
+			type: 'line',
+			data:A3,
+			yAxis: 1,
+			lineWidth: 2,
+			visible:true,
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //A12
+			name: txBrenner[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' %'
+			},
+			color: '#d18f27',
+			type: 'line',
+			data:A12,
+			yAxis: 2,
+			lineWidth: 2,
+			visible:true,
+		},false
+		);
+	chart1.redraw();
+}
+
+function FHK2()
+{
+	prepare_Add();
+		chart1.yAxis[1].update({
+					labels:
+					{
+						enabled: true
+					},
+					title: 
+					{
+						text: txPu[langflag]
+					}
+				});
+		chart1.yAxis[2].update({
+					labels:
+					{
+						enabled: true
+					},
+					title: 
+					{
+						text: txBr[langflag]
+					}
+				});
+
+		chart1.addSeries
+		(
+		{ //S13
+			name: txVorlaufHK2[langflag],
+			tooltip: 
+			{
+				useHTML: true,
+				valueSuffix: ' °C'
+			},
+			color: '#555559',
+			type: 'line',
+			data: S13,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+			legend: 
+			{
+			visibility:'hidden'
+			}
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //S4
+			name: txHeizungspufferoben[langflag],
+			tooltip: 
+			{
+				useHTML: true,
+				valueSuffix: ' °C'
+			},
+			color: '#d18f27',
+			type: 'line',
+			data: S4,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+			legend: 
+			{
+			visibility:'hidden'
+			}
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //S10
+			name: txAußentemperatur[langflag],
+			tooltip: 
+			{
+				useHTML: true,
+				valueSuffix: ' °C'
+			},
+			color: '#639b39',
+			type: 'line',
+			data: S10,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+			legend: 
+			{
+			visibility:'hidden'
+			}
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //A4
+			name: txPumpeHK2[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' %'
+			},
+			color: '#555559',
+			type: 'line',
+			data:A4,
+			yAxis: 1,
+			lineWidth: 2,
+			visible:true,
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //A12
+			name: txBrenner[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' %'
+			},
+			color: '#d18f27',
+			type: 'line',
+			data:A12,
+			yAxis: 2,
+			lineWidth: 2,
+			visible:true,
+		},false
+		);
+	chart1.redraw();
+}
+
+function FHK3()
+{
+	prepare_Add();
+		chart1.yAxis[1].update({
+					labels:
+					{
+						enabled: true
+					},
+					title: 
+					{
+						text: txPu[langflag]
+					}
+				});
+		chart1.yAxis[2].update({
+					labels:
+					{
+						enabled: true
+					},
+					title: 
+					{
+						text: txBr[langflag]
+					}
+				});
+
+		chart1.addSeries
+		(
+		{ //S16
+			name: txVorlaufHK3[langflag],
+			tooltip: 
+			{
+				useHTML: true,
+				valueSuffix: ' °C'
+			},
+			color: '#555559',
+			type: 'line',
+			data: S16,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+			legend: 
+			{
+			visibility:'hidden'
+			}
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //S4
+			name: txHeizungspufferoben[langflag],
+			tooltip: 
+			{
+				useHTML: true,
+				valueSuffix: ' °C'
+			},
+			color: '#d18f27',
+			type: 'line',
+			data: S4,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+			legend: 
+			{
+			visibility:'hidden'
+			}
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //S10
+			name: txAußentemperatur[langflag],
+			tooltip: 
+			{
+				useHTML: true,
+				valueSuffix: ' °C'
+			},
+			color: '#639b39',
+			type: 'line',
+			data: S10,
+			yAxis: 0,
+			lineWidth: 2,
+			visible:true,
+			legend: 
+			{
+			visibility:'hidden'
+			}
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //A5
+			name: txPumpeHK3[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' %'
+			},
+			color: '#555559',
+			type: 'line',
+			data:A5,
+			yAxis: 1,
+			lineWidth: 2,
+			visible:true,
+		},false
+		);
+		chart1.addSeries
+		(
+		{ //A12
+			name: txBrenner[langflag],
+			tooltip: 
+			{
+				valueSuffix: ' %'
+			},
+			color: '#d18f27',
+			type: 'line',
+			data:A12,
+			yAxis: 2,
+			lineWidth: 2,
+			visible:true,
+		},false
+		);
+	chart1.redraw();
+}
+
+function fParseTxt(data)
+{ 
+
+	var i;
+	string = data;
+	STS=string.length;
+	ts1=0;
+	ts_max=0;
+// ------------------------------------------------------------------------------------------------------------------- 
+	for (i=0;i < STS;i)
+	{
+		counter = 0;
+		size = convertAtoH(string,2);
+
+		hh=convertAtoH(string,2);
+		mm=convertAtoH(string,2);
+		ss=convertAtoH(string,2);
+
+		P9=convertAtoH(string,4);
+		P11=convertAtoH(string,4);
+
+		_S1=(convertAtoH(string,-4))/10;
+		_S2=(convertAtoH(string,-4))/10;
+		_S3=(convertAtoH(string,-4))/10;
+		_S4=(convertAtoH(string,-4))/10;
+		_S5=(convertAtoH(string,-4))/10;
+		_S6=(convertAtoH(string,-4))/10;
+		_S7=(convertAtoH(string,-4))/10;
+		_S8=(convertAtoH(string,-4))/10;
+		_S9=(convertAtoH(string,-4))/10;
+		_S10=(convertAtoH(string,-4))/10;
+		_S11=(convertAtoH(string,-4))/10;
+		_S12=(convertAtoH(string,-4))/10;
+		_S13=(convertAtoH(string,-4))/10;
+		_S14=(convertAtoH(string,-4))/10;
+		_S15=(convertAtoH(string,-4))/10;
+		_S16=(convertAtoH(string,-4))/10;
+		
+		P45=convertAtoH(string,4);
+		P47=convertAtoH(string,4);
+		P49=convertAtoH(string,4);
+		P51=convertAtoH(string,4);
+		P53=convertAtoH(string,4);
+		
+		_Mod=convertAtoH(string,2);
+		_SP1=convertAtoH(string,2);
+		_SP2=convertAtoH(string,2);
+		_LPu=convertAtoH(string,2);
+		
+		_RF1=(convertAtoH(string,4))/10;
+		_RF2=(convertAtoH(string,4))/10;
+		_RF3=(convertAtoH(string,4))/10;
+
+		P65=convertAtoH(string,2);
+		P66=convertAtoH(string,2);
+		_A3=convertAtoH(string,2);
+		_A4=convertAtoH(string,2);
+		_A5=convertAtoH(string,2);
+		P70=convertAtoH(string,2);
+		P71=convertAtoH(string,2);
+		P72=convertAtoH(string,2);
+		P73=convertAtoH(string,2);
+		P74=convertAtoH(string,2);
+		P75=convertAtoH(string,2);
+		_A12=convertAtoH(string,2);
+		P77=convertAtoH(string,2);
+		P78=convertAtoH(string,2);
+
+		P79=convertAtoH(string,4);
+		P81=convertAtoH(string,4);
+		P83=convertAtoH(string,4);
+		P85=convertAtoH(string,4);
+		P87=convertAtoH(string,4);
+
+		P89=convertAtoH(string,2);
+		P90=convertAtoH(string,2);
+		P91=convertAtoH(string,2);
+		P92=convertAtoH(string,2);
+		P93=convertAtoH(string,2);
+		P94=convertAtoH(string,2);
+		P95=convertAtoH(string,2);
+		P96=convertAtoH(string,2);
+		P97=convertAtoH(string,2);
+		P98=convertAtoH(string,2);
+		P99=convertAtoH(string,2);
+		
+		P100=convertAtoH(string,4);
+		
+		P102=convertAtoH(string,2);
+		P103=convertAtoH(string,2);
+		
+		P104=convertAtoH(string,4);
+		
+		P106=convertAtoH(string,2);
+		
+		YY=convertAtoH(string,2);
+		MM=convertAtoH(string,2);
+		DD=convertAtoH(string,2);
+		
+		P110=convertAtoH(string,2);
+		P111=convertAtoH(string,2);
+
+		if ((DD==17) && (hh==14) && (mm==35))
+		{
+		mm=mm;
+		}
+		
+		ts2=Clock_MakeTimeStamp (hh, mm, ss, DD, MM, 2000+YY);
+		ts1=1000*ts2+((40*365+10)*24*60*60*1000);
+
+		if (ts1>ts_max)
+		{
+		ts_max=ts1;
+		S1.push([ts1,_S1]);
+		S3.push([ts1,_S3]);
+		S4.push([ts1,_S4]);
+		S5.push([ts1,_S5]);
+		S8.push([ts1,_S8]);
+		S9.push([ts1,_S9]);
+		S10.push([ts1,_S10]);
+		S12.push([ts1,_S12]);
+		S13.push([ts1,_S13]);
+		S16.push([ts1,_S16]);
+
+		SP1.push([ts1,_SP1]);
+		SP2.push([ts1,_SP2]);
+		A3.push([ts1,_A3]);
+		A4.push([ts1,_A4]);
+		A5.push([ts1,_A5]);
+		A12.push([ts1,_A12]);
+		}
+		i+=(2*size);
+		
+	
+	}
+}
+
+// Timestamp
+{
+
+function Clock_MakeTimeStamp (hour,minute,second,day,month,year)
+{
+	var help_year = 0;
+	var stamp = 0;
+	if (year<TIMESTAMP_START_TIME_YEAR) 
+	{
+		year=TIMESTAMP_START_TIME_YEAR;
+	}
+	help_year = year - TIMESTAMP_START_TIME_YEAR;
+	for(var ihelp = 0; ihelp < help_year; ihelp++)
+	{
+		stamp += 31536000;
+		if(Is_Leap_Year(TIMESTAMP_START_TIME_YEAR + ihelp)) 
+		{
+			stamp += 86400;
+		}
+	}
+	stamp += (86400 * Get_Days_This_Year_Until_Now(day, month, year))& 0xffffffff;
+	stamp += second;
+	stamp += (minute * 60);
+	stamp += (hour * 3600);
+	
+	return(stamp);
+}
+
+function Get_Days_This_Year_Until_Now (day,month,year)
+{
+	var Clock_Months = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+	var help = 0;
+	for(var chelp = 0; chelp < month - 1; chelp++)
+	{
+		help += Clock_Months[chelp];
+		if(chelp == 1 && Is_Leap_Year(year) == 1)
+		{
+		help++;
+		}
+	}
+	return((help + day) - 1);
+}
+	
+
+	
+function Is_Leap_Year(_Year)
+{
+   if ((((_Year % 4) == 0 && (_Year % 100) != 0) || (_Year % 400) == 0))
+   {
+      return (1);
+   }
+   return (0);
+}
+}
+
+function fInitCharts() 
+{
+
+	Highcharts.setOptions({
+			
+			global:
+			{
+			},
+			lang:
+			{
+			shortMonths: txshortMonths[langflag],
+			weekdays: txWeekdays[langflag]
+			}
+			}
+			);
+			
+
+	chart1 = new Highcharts.Chart(options1);
+
+
+chart1.showLoading();
+chart1.xAxis[0].setExtremes();
+chart1.yAxis[1].setExtremes(0,100);
+chart1.yAxis[2].setExtremes(0,100);
+
+
+}
+
+function fSelectRequestType()
+{
+	if (window.XMLHttpRequest) 
+	{
+		// IE7+, Firefox, Chrome, Opera, Safari
+		var request1 = new XMLHttpRequest();
+	}
+    else 
+	{
+		// code for IE6, IE5
+		var request1 = new ActiveXObject('Microsoft.XMLHTTP');
+	}
+	request=request1;
+}
+
+function fRequestHandler() 
+{
+	if(request.readyState==4)
+	{
+		fParseTxt(request.responseText);
+		if (navigator.platform == "MacPPC")
+		{
+		FSpeicher();
+		}
+		else
+		{
+		FSpeicher(); 
+		}
+	}
+};
+
+ function convertAtoH(hexstring,sz)
+{
+	var tmpstring = "";
+	var size;
+	var ret;
+	size=sz;
+	if (sz<0) size=-size;
+	if(size==4)
+		{
+		tmpstring = hexstring.substring(2,4);
+		}
+	tmpstring += hexstring.substring(0,2);
+	string = string.substring(size);
+	counter+=size;
+	ret=parseInt(tmpstring,16);
+	if (sz==-4) 
+	{
+		if (ret>32768) ret-=65536;
+	}
+	return ret;
+}
+
+function sendRequest(url, callback, postData)
+{
+	var req = createXMLHTTPObject();
+	if (!req) return;
+	var method = (postData) ? "POST" : "GET";
+	req.open(method, url, true);
+
+	if (postData)
+	{
+		req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	}
+  
+	req.onreadystatechange = function () 
+	{
+    		if (req.readyState != 4) return;
+    		if (req.status != 200 && req.status != 304)
+		{
+			
+      			callback(req);
+				return;
+    		}
+    		callback(req);
+  	};
+  	
+	if (req.readyState == 4)
+	{
+		return;
+	}
+  	req.send(postData);
+}
+
+function createXMLHTTPObject()
+{
+	var xmlhttp = false;
+	for (var i=0;i<XMLHttpFactories.length;i++)
+	{
+		try
+		{
+			xmlhttp = XMLHttpFactories[i]();
+		}
+
+		catch (e)
+		{
+			continue;
+    		}
+    		break;
+  	}
+  	return xmlhttp;
+}
+
+function getQueryParam(param)
+{
+	var result =  window.location.search.match(new RegExp("(\\?|&)" + param + "(\\[\\])?=([^&]*)"));
+	return result ? result[3] : false;
+}
+
+function langRequest(req)
+{
+	if (req.readyState == 4)
+	{
+		if(req.status==200)
+		{
+			var xmlDoc = req.responseXML;
+			if (!xmlDoc || !xmlDoc.documentElement)
+			{
+				return;
+			}
+			
+			var items = xmlDoc.documentElement.getElementsByTagName("entry");
+			
+			if (!items)
+			{
+				return;
+			}
+			
+			for (var x = 0; x < items.length;x++)
+			{
+				if(!(items[x].attributes))
+				{
+					continue;
+				}
+				if(items[x].attributes.getNamedItem("id").nodeValue == "tStatusEin")
+				{
+					
+					statusEinText = (items[x].textContent || items[x].text);
+					continue;
+				}
+				else if(items[x].attributes.getNamedItem("id").nodeValue == "tStatusAus")
+				{
+					statusAusText = (items[x].textContent || items[x].text);
+					continue;
+				}
+				
+				var spn = document.getElementsByTagName("span");
+				for(var s in spn)
+				{
+					if(spn[s].className)
+					{
+						if(spn[s].className == "transtext")
+						{
+							if(spn[s].id == items[x].attributes.getNamedItem("id").nodeValue)
+							{
+								spn[s].innerHTML = (items[x].textContent || items[x].text);
+								spn[s].style.visibility = "visible";
+							}
+						}
+					}
+				}
+				
+				spn = document.getElementsByTagName("div");
+				for(var s in spn)
+				{
+					if(spn[s].className)
+					{
+						if(spn[s].className == "transtext")
+						{
+							if(spn[s].id == items[x].attributes.getNamedItem("id").nodeValue)
+							{
+								spn[s].innerHTML = (items[x].textContent || items[x].text);
+								spn[s].style.visibility = "visible";
+							}
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			showText();
+		}
+	}
+}
+
+function showText()
+{
+	var spn = document.getElementsByTagName("span");
+	for(var s in spn)
+	{
+		if(spn[s].className)
+		{
+			if(spn[s].className == "transtext")
+			{
+				spn[s].style.visibility = "visible";
+			}
+		}
+	}
+	
+	spn = document.getElementsByTagName("div");
+	for(var s in spn)
+	{
+		if(spn[s].className)
+		{
+			if(spn[s].className == "transtext")
+			{
+				spn[s].style.visibility = "visible";
+			}
+		}
+	}
+}
+
+function initLanguage()
+{
+	if(window.location)
+	{
+		if(window.location.search)
+		{
+			lang = getQueryParam("l");
+			var filename = "lang_"+lang+".xml?d=" + (Math.round(Math.random()*99999999));
+			sendRequest(filename, langRequest);
+			
+			var tmp = document.getElementsByTagName("a");
+			for(var x in tmp)
+			{
+				if(tmp[x].className)
+				{
+					if(tmp[x].className != "nolnkc")
+					{
+						string1=tmp[x].attributes.getNamedItem("href").nodeValue;
+						if (!String.prototype.includes) {
+						String.prototype.includes = function(search, start) {
+						  if (typeof start !== 'number') {
+							start = 0;
+						  }
+
+						  if (start + search.length > this.length) {
+							return false;
+						  } else {
+							return this.indexOf(search, start) !== -1;
+						  }
+						};
+						}						
+						if(!(string1.includes("?l="))) 
+						{
+						tmp[x].attributes.getNamedItem("href").nodeValue+= '?l='+getQueryParam("l");
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			showText();
+		}
+	}
+	else
+	{
+		showText();
+	}
+}
+
+
+function initOptions()
+{
+	if (lang=='nl')
+	{
+		langflag=2;
+	}
+	else if (lang=='en')
+	{
+		langflag=1;
+	}
+	else
+	{
+		langflag=0;
+	}
+	
+
+
+
+options1 =
+{  
+		title: 
+		{
+			style:
+			{
+				font: '20px Calibri'
+			},
+			text: null //'SC2'
+		},
+		subtitle: 
+		{
+			style:
+			{
+				font: '20px Calibri'
+			},
+			text: null
+		},
+		loading:
+		{
+			style:
+			{
+				font: '20px Calibri'
+			},
+		},
+		lang: 
+		{
+			loading: txWarten[langflag],
+		},
+		credits: 
+		{
+			enabled: false
+		}, 
+		chart: 
+		{
+			marginTop: 50,
+			borderRadius: 5,
+			borderWidth: 1,
+			zoomType: 'x',
+			renderTo: 'container1',
+			animation: false,
+			backgroundColor: '#ffffff'
+		},
+		navigator: 
+		{
+			series:
+			{
+				data: 'null',
+			},
+			xAxis:
+			{
+				labels:
+				{
+					style:
+					{
+						font: '20px Calibri'
+					}
+				}
+			},
+			enabled: true
+		},
+		scrollbar:
+		{
+		enabled : true
+		},
+		legend:
+		{
+			itemStyle:
+			{
+				font: '20px Calibri'
+			},
+			enabled: true
+		},
+		xAxis: 
+		{
+			type: 'datetime',
+			crosshair: 
+			{
+				color: 'black',
+				dashStyle: 'shortdot'
+			},
+			allowDecimals: false,
+			dateTimeLabelFormats: 
+			{
+				minute: '%H:%M',
+				hour: '%H:%M', 
+				year: '%y'
+			},
+			labels:
+			{
+				style:
+				{
+				font: '20px Calibri'
+				}
+			},
+			minTickInterval: 60000
+		},
+		yAxis: 
+		[
+		{
+			crosshair: 
+			{
+				color: 'black',
+				dashStyle: 'shortdot'
+			},
+			labels: 
+			{
+				formatter: function() 
+				{
+					return this.value +'°C';
+				},
+				style: 
+				{
+					font: '20px Calibri',
+				},
+			},
+			useHTML: true,
+			title: 
+			{
+				text: txSensoren[langflag],
+				style: 
+				{
+					font: '20px Calibri',
+				},
+			},
+			height: '65%',
+			opposite: true
+		},
+		{
+			crosshair: 
+			{
+				dashStyle: 'shortdot'
+			},
+			labels: 
+			{
+				formatter: function() 
+				{
+					return this.value +'%';
+				},
+				style: 
+				{
+					font: '20px Calibri',
+				},
+				offset:0,
+				x: -86,
+			},
+			title: 
+			{
+				text: txSP1[langflag],
+				style: 
+				{
+					font: '20px Calibri',
+				},
+
+			},
+			top: '75%',
+			height: '5%',
+			visible: false,
+			opposite: true
+		},
+		{
+			crosshair: 
+			{
+				dashStyle: 'shortdot'
+			},
+			labels: 
+			{
+				formatter: function() 
+				{
+					return this.value +'%';
+				},
+				style: 
+				{
+					font: '20px Calibri',
+				},
+				offset:0,
+				x: -86,
+			},
+			title: 
+			{
+				text: txSP2[langflag],
+				style: 
+				{
+					font: '20px Calibri',
+				},
+			},
+			top: '90%',
+			height: '5%',
+			visible: false,
+			opposite: true
+		}
+		],
+		tooltip: 
+		{
+			headerFormat: '<span style="font-size: 20px">{point.key}</span><br/>',
+			enabled: true,
+			hideDelay: 100,
+			xDateFormat: txxDateFormat[langflag],
+			animation: false,
+			valueDecimals: 1,
+			style: 
+			{
+				"fontSize": "20px",
+				"font": "Calibri"
+			},
+			shared: true,
+			
+			
+		},
+		plotOptions: 
+		{
+			series: 
+			{
+				animation: false,
+				lineWidth: 1,
+				turboThreshold: 1,
+				marker: 
+				{
+					enabled: false // muss false
+				}
+			}
+		}
+	}
+}
+ 
+function main ()
+{
+	grafik=1;
+	initLanguage();
+	initOptions();
+	
+	fInitCharts();
+	fSelectRequestType(); 
+
+	request.onreadystatechange=fRequestHandler;
+	request.open('GET', 'logging.txt'+'?_='+(new Date()).getTime(), true);
+	request.send(null);
+	document.getElementById('speicher').focus();
+}
+
+window.onload = main;
+
+</script>
+
+<noscript>
+<p>Bitte Java Script aktivieren!</p>
+</noscript>
+
+<body>   
+    <div id="container" >
+        <div id="center">
+			<div class="logo">
+				<div>
+					<a class="piclnk" id="logo" href="index.html"><img src="data:image/png;base64,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" alt="Solvis"/></a>
+					<div style="float:right;">
+						<span id="tTemperaturen" class="transtext">Temperaturen</span>
+					</div>
+					<br />
+				</div>
+		</div>
+	
+	<div id="button_container">
+	<ul>
+		<li>
+			<button id="speicher" class="button" onclick="FSpeicher()"><span id="tSpeicher" class="transtext">Speicher</span></button>
+		</li> 
+		<li>
+			<button class="button" onclick="FSolar()"><span id="tSolar" class="transtext">Solar</span></button>
+		</li> 
+		<li>
+			<button class="button" onclick="FHK1()"><span id="tHK1" class="transtext">Heizkreis 1</span></button>
+		</li> 
+		<li>
+			<button class="button" onclick="FHK2()"><span id="tHK2" class="transtext">Heizkreis 2</span></button>
+		</li> 
+		<li>
+			<button class="button" onclick="FHK3()"><span id="tHK3" class="transtext">Heizkreis 3</span></button>
+		</li> 
+		<li>
+		<button class="button" onclick="window.location.href='#note'"><span id="tWasser" class="transtext">Wasser</span></button>
+		</li> 
+	</ul>
+	</div>
+</div>
+<div id="container1" style="min-width: 400px; height: 650px; margin: 0 auto"></div>
+	<div id="note" class="overlay">
+	<div class="popup">
+		<h2><span id="tWWlogtitle" class="transtext">Nicht verfügbar</span></h2>
+		<a class="nolnkc" id="close" href="#">×</a>
+		<div class="note"><span id="tWWlog" class="transtext">
+			Die SolvisRemote speichert Ihre Anlagenwerte alle 5 Minuten. Eine aussagekräftige Darstellung der Warmwasserverläufe ist damit nicht möglich. Ein spezielles Sekundenlogging für Warmwasser finden Sie auf der Speicherkarte Ihres Zentralreglers.<br><br></span>
+		</div>
+	</div>
+</div>
+<br />
+    <div class="footer">
+	      <div style="float:left;"><a class="nolnkc" title="SOLVIS GmbH" href="https://www.solvis.de">&copy; SOLVIS GmbH</a></div>
+          <div id="version" style="float:right;">V2.20.06</div>
+    </div>
+</div>
+<script src="highstock.js"></script>
+<script src="exporting.js"></script>
+</body>
+</html>
