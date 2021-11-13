@@ -4,7 +4,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:solvis_v2_app/homescreen/solvis_widget.dart';
 import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
-import 'package:solvis_v2_app/util/loading_button.dart';
+import 'package:solvis_v2_app/solvis/solvis_service.dart';
+import 'package:solvis_v2_app/widget/loading_button.dart';
 
 class SolvisHomePage extends StatefulWidget {
 
@@ -26,9 +27,6 @@ class _SolvisHomePageState extends State<SolvisHomePage> {
     SchedulerBinding.instance!.addPostFrameCallback((_) {
       if (!client.hasUrl) ServerSettingsPage.open(context, widget._container);
     });
-    client.addListener(() {
-      if (mounted) setState(() {});
-    });
   }
 
   @override
@@ -40,7 +38,7 @@ class _SolvisHomePageState extends State<SolvisHomePage> {
   @override
   Widget build(BuildContext context) {
     final container = widget._container;
-    final _solvisClient = container.get<SolvisClient>();
+    final _solvisService = container.get<SolvisService>();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -52,22 +50,24 @@ class _SolvisHomePageState extends State<SolvisHomePage> {
         ],
       ),
       body: SolvisWidget(container),
-      floatingActionButton: _buildReturnFloatingButton(_solvisClient),
+      floatingActionButton: _buildReturnFloatingButton(_solvisService),
     );
   }
 
-  Widget? _buildReturnFloatingButton(SolvisClient _solvisClient) {
-    if (_solvisClient.hasUrl) {
-      return CircularLoadingButton(
-        icon: const Icon(Icons.arrow_back_ios),
-        label: const Text('Zurück'),
-        onPressed: () async {
-          await _solvisClient.back();
-          return;
-        },
-      );
-    } else {
-      return null;
-    }
+  Widget? _buildReturnFloatingButton(SolvisService _solvisService) {
+    return ValueListenableBuilder(
+      valueListenable: _solvisService.errorStatus,
+      builder: (context, value, child) {
+        if (value == null) {
+          return CircularLoadingButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            label: const Text('Zurück'),
+            onPressed: _solvisService.back,
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
   }
 }

@@ -66,7 +66,7 @@ void main() {
     expect(find.text('Solvis Heizung nicht erreicht.'), findsOneWidget);
   });
 
-  testWidgets('Back button ', (WidgetTester tester) async {
+  testWidgets('Show SolvisHomePage', (WidgetTester tester) async {
     initPrefsMock(mock);
 
     // Build our app and trigger a frame.
@@ -74,7 +74,6 @@ void main() {
     await tester.pump();
 
     expect(find.byType(SolvisHomePage), findsOneWidget);
-    expect(find.byType(FloatingActionButton), findsOneWidget);
   });
 
   testWidgets('Verify floating button visibility based on URL', (WidgetTester tester) async {
@@ -90,10 +89,10 @@ void main() {
     expect(find.byType(FloatingActionButton), findsNothing);
 
     final ctx = await c;
-    ctx.get<SolvisClient>().value = 'http://localhost';
+    ctx.get<SolvisClient>().server = 'http://localhost';
 
     await tester.pump();
-    expect(find.byType(FloatingActionButton), findsOneWidget);
+    expect(find.text ('zurück'), findsNothing);
   });
 }
 

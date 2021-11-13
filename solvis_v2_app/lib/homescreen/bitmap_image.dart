@@ -15,21 +15,19 @@ class ImageEditor extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    //var data = image.toByteData();
-    // debugPrint('paint-> height: ${size.height} width: ${size.width}');
     if (size.width > 0) {
       final maxWidth = size.width / image.width;
       final maxHeight = size.height / image.height;
       _scale = _math.min(maxWidth, maxHeight);
       // debugPrint('scale: $_scale');
       canvas.scale(_scale, _scale);
+      canvas.drawImage(image, offset, Paint());
+      _redraw = false;
     }
-    canvas.drawImage(image, offset, Paint());
-    _redraw = false;
   }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return _redraw; // always repaint
+    return _redraw;
   }
 }

@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:solvis_v2_app/settings/solvis_settings.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
-import 'package:solvis_v2_app/util/loading_button.dart';
+import 'package:solvis_v2_app/solvis/solvis_service.dart';
+import 'package:solvis_v2_app/widget/loading_button.dart';
 
 class ServerSettingsPage extends StatefulWidget {
   static Future<void> open(BuildContext context, AppContainer _container) {
@@ -89,19 +90,19 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
 
   Future<void> _testServerConnection() async {
     final settings = widget._container.get<SolvisSettingsDao>();
+    final _solvisClient = widget._container.get<SolvisClient>();
+    final _solvisService = widget._container.get<SolvisService>();
 
     settings.url = _serverUrlCtrl.text;
     settings.password = _userPasswordCtrl.text;
     settings.user = _userNameCtrl.text;
-    final _solvisClient = widget._container.get<SolvisClient>();
 
     try {
-      _solvisClient.value = _serverUrlCtrl.text;
+      _solvisClient.server = _serverUrlCtrl.text;
       _solvisClient.newCredentials(_userNameCtrl.text, _userPasswordCtrl.text);
 
-      final r = await _solvisClient.loadScreen();
-      if (r.statusCode == 401) throw 'Falscher Benutzername oder Passwort.';
-      else if (r.statusCode > 299) throw Exception('${r.statusCode} Verbindung fehlgeschlagen. ${r.body}');
+      await _solvisService.connect();
+      _solvisService.autoRefreshScreen();
 
       AwesomeDialog(
         context: context,

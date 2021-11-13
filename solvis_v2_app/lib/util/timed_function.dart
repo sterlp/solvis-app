@@ -17,10 +17,11 @@ class TimedFunction {
   void queue() {
     cancel();
     // debugPrint('queue $_time');
-    _timer = Timer(Duration(milliseconds: _time), fn);
+    _timer = Timer(Duration(milliseconds: _time), _runFn);
     if (_time < _maxRefreshTime) _time += 100;
   }
-  void call() {
+  void _runFn() {
+    _timer = null;
     fn();
   }
   void resetDaly() {
