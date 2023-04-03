@@ -28,6 +28,10 @@ class ErrorListenerTemplate with Closeable {
     dispose();
     return;
   }
+
+  void clearError() {
+    listener.value = null;
+  }
 }
 
 class RetryTemplate<T> {

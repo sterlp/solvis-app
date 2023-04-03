@@ -15,4 +15,7 @@ class SolvisSettingsDao {
   String get url => _preferences.getString('solvis_url') ?? '';
 
   bool get hasUrl => url.isNotEmpty;
+
+  bool get isSolvisV2 => _preferences.getBool('solvis_v2') ?? true;
+  set isSolvisV2 (bool value) => _preferences.setBool('solvis_v2', value);
 }

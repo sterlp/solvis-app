@@ -1,11 +1,11 @@
-import 'dart:async';
 import 'dart:math';
 import 'dart:ui' as ui show Image;
+
 import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:solvis_v2_app/homescreen/bitmap_image.dart';
+import 'package:solvis_v2_app/homescreen/widget/bitmap_image.dart';
 import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/solvis/solvis_service.dart';
 
@@ -20,6 +20,7 @@ class SolvisWidget extends StatefulWidget {
 }
 
 class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver {
+  // max for v2
   static const maxWidth = 480;
   static const maxHeight = 256;
   // ensure 500ms between the touch and the confirm REST calls
@@ -41,7 +42,12 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
             },
             icon: const Icon(Icons.refresh),
             label: const Text('Nochmal versuchen'),),
-          ElevatedButton.icon(onPressed: () => ServerSettingsPage.open(context, widget._container),
+          ElevatedButton.icon(onPressed: () async {
+            widget._container.get<SolvisService>().stopAutoRefresh();
+            await ServerSettingsPage.open(context, widget._container);
+            widget._container.get<SolvisService>().autoRefreshScreen();
+            setState(() {});
+          },
             icon: const Icon(Icons.settings),
             label: const Text('Einstellungen'),),
         ],
@@ -64,6 +70,20 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
   @override
   Widget build(BuildContext context) {
     final solvisService = widget._container.get<SolvisService>();
+
+    return AnimatedBuilder(
+      animation: Listenable.merge([solvisService.screen, solvisService.errorStatus]),
+      builder: (context, child) {
+        if (solvisService.errorStatus.value == null) {
+          if (solvisService.screen.value == null) return _loadingScreen();
+
+          final image = ImageEditor(solvisService.screen.value!);
+          return _buildSolvisScreen(image, solvisService);
+        } else {
+          return _buildErrorScreen(solvisService.errorStatus.value!, solvisService);
+        }
+      },
+    );
 
     return ValueListenableBuilder<Exception?>(
       valueListenable: solvisService.errorStatus,
@@ -118,8 +138,6 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
     // 480 x 256
     final x = (tabPosition.dx * 2 / image.scale).round();
     final y = (tabPosition.dy * 2 / image.scale).round();
-    // debugPrint('x: $x');
-    // debugPrint('y: $y');
     return Point(x, y);
   }
 
@@ -127,23 +145,25 @@ class _SolvisWidgetState extends State<SolvisWidget> with WidgetsBindingObserver
   void initState() {
     super.initState();
     // because Flutter is shit we have to play around with a state observer to
-    // if we are currently really displayed or not
-    WidgetsBinding.instance!.addObserver(this);
+    // see if we are currently really displayed or not
+    WidgetsBinding.instance.addObserver(this);
     widget._container.get<SolvisService>().autoRefreshScreen();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     widget._container.get<SolvisService>().stopAutoRefresh();
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    debugPrint('new status $state');
+    if (kDebugMode) debugPrint('new status $state');
     if (state == AppLifecycleState.resumed) {
       widget._container.get<SolvisService>().autoRefreshScreen();
     } else widget._container.get<SolvisService>().stopAutoRefresh();
+
+    setState(() {});
   }
 }

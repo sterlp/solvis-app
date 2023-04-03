@@ -1,5 +1,6 @@
-import 'dart:math' as _math;
+import 'dart:math' as math;
 import 'dart:ui' as ui show Image;
+
 import 'package:flutter/material.dart';
 
 class ImageEditor extends CustomPainter {
@@ -18,7 +19,7 @@ class ImageEditor extends CustomPainter {
     if (size.width > 0) {
       final maxWidth = size.width / image.width;
       final maxHeight = size.height / image.height;
-      _scale = _math.min(maxWidth, maxHeight);
+      _scale = math.min(maxWidth, maxHeight);
       // debugPrint('scale: $_scale');
       canvas.scale(_scale, _scale);
       canvas.drawImage(image, offset, Paint());

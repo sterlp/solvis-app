@@ -2,17 +2,17 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:solvis_v2_app/app_config.dart';
 import 'package:solvis_v2_app/settings/solvis_settings.dart';
-import 'package:solvis_v2_app/solvis/solvis_client.dart';
 import 'package:solvis_v2_app/solvis/solvis_service.dart';
 import 'package:solvis_v2_app/widget/loading_button.dart';
 
 class ServerSettingsPage extends StatefulWidget {
-  static Future<void> open(BuildContext context, AppContainer _container) {
+  static Future<void> open(BuildContext context, AppContainer container) {
     HapticFeedback.mediumImpact();
     return Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ServerSettingsPage(_container)),
+      MaterialPageRoute(builder: (context) => ServerSettingsPage(container)),
     );
   }
 
@@ -59,6 +59,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
   }
 
   ListView _buildSettingsView() {
+    final settings = widget._container.get<SolvisSettingsDao>();
     return ListView(
       children: [
         ListTile(
@@ -78,57 +79,97 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
           title: TextField(controller: _serverUrlCtrl,),
           subtitle: const Text('Server Adresse z.B. 192.168.178.35'),
         ),
+        /*
+        SwitchListTile(
+          title: Text(settings.isSolvisV2 ? 'Solvis V2' : 'Solvis V3'),
+          value: settings.isSolvisV2,
+          onChanged: (bool value) {
+            setState(() => settings.isSolvisV2 = value);
+          },
+          secondary: const Icon(Icons.question_mark),
+        ),
+        */
         ListTile(
           title: CircularLoadingButton(
             label: const Text('Einstellungen testen'),
             onPressed: _testServerConnection,
           ),
         ),
+        ListTile(
+          title: CircularLoadingButton(
+            label: const Text('Solvis SC2 "solvis/solvis" verwenden'),
+            onPressed: () async {
+              setState(() {
+                settings.isSolvisV2 = true;
+                _userNameCtrl.text = "solvis";
+                _userPasswordCtrl.text = "solvis";
+              });
+            },
+          ),
+        ),
+        /*
+        ListTile(
+          title: CircularLoadingButton(
+            label: const Text('Solvis SC3 "Solvis/RCSC3!" verwenden'),
+            onPressed: () async {
+              settings.isSolvisV2 = false;
+              _userNameCtrl.text = "Solvis";
+              _userPasswordCtrl.text = "RCSC3!";
+              setState(() {});
+              await _testServerConnection();
+            },
+          ),
+        ),
+        */
       ],
     );
   }
 
   Future<void> _testServerConnection() async {
     final settings = widget._container.get<SolvisSettingsDao>();
-    final _solvisClient = widget._container.get<SolvisClient>();
-    final _solvisService = widget._container.get<SolvisService>();
+
 
     settings.url = _serverUrlCtrl.text;
-    settings.password = _userPasswordCtrl.text;
     settings.user = _userNameCtrl.text;
+    settings.password = _userPasswordCtrl.text;
 
+    updateSolvisClientInContext(widget._container);
+
+    final solvisService = widget._container.get<SolvisService>();
     try {
-      _solvisClient.server = _serverUrlCtrl.text;
-      _solvisClient.newCredentials(_userNameCtrl.text, _userPasswordCtrl.text);
+      await solvisService.connect();
+      solvisService.autoRefreshScreen();
 
-      await _solvisService.connect();
-      _solvisService.autoRefreshScreen();
-
-      AwesomeDialog(
-        context: context,
-        dialogType: DialogType.SUCCES,
-        animType: AnimType.RIGHSLIDE,
-        headerAnimationLoop: false,
-        title: 'Erfolg',
-        desc: 'Verbindung erfolgreich.',
-        btnOkOnPress: () => Navigator.pop(context),
-        btnOkIcon: Icons.check_circle,
-        btnOkText: 'Schließen',
-        btnOkColor: Colors.green,
-      ).show();
+      if (mounted) {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.success,
+          animType: AnimType.topSlide,
+          headerAnimationLoop: false,
+          title: settings.isSolvisV2 ? 'Solvis V2 Erfolg' : 'Solvis V3 Erfolg',
+          desc: 'Verbindung erfolgreich.',
+          btnOkOnPress: () => Navigator.pop(context),
+          btnOkIcon: Icons.check_circle,
+          btnOkText: 'Schließen',
+          btnOkColor: Colors.green,
+        ).show();
+      }
     } catch (e) {
-      AwesomeDialog(
-        context: context,
-        dialogType: DialogType.ERROR,
-        animType: AnimType.RIGHSLIDE,
-        headerAnimationLoop: false,
-        title: 'Verbindungsfehler',
-        desc: e.toString(),
-        btnOkOnPress: () {},
-        btnOkText: 'Einstellungen ändern',
-        btnOkIcon: Icons.cancel,
-        btnOkColor: Colors.red,
-      ).show();
+      if (mounted) {
+        debugPrint('$e ${e.runtimeType}');
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.topSlide,
+          headerAnimationLoop: false,
+          title: settings.isSolvisV2 ? 'Solvis V2 Fehler' : 'Solvis V3 Fehler',
+          desc: e.toString(),
+          btnOkOnPress: () {},
+          btnOkText: 'Einstellungen ändern',
+          btnOkIcon: Icons.cancel,
+          btnOkColor: Colors.red,
+        ).show();
+      }
     }
   }
 }

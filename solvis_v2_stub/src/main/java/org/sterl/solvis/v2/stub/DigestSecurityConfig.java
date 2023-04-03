@@ -32,7 +32,7 @@ public class DigestSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsServiceBean() throws Exception {
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
         inMemoryUserDetailsManager.createUser(
-                User.withUsername("user").password("pass").roles("USER")
+                User.withUsername("solvis").password("solvis").roles("USER")
                     .build());
         return inMemoryUserDetailsManager;
     }
@@ -55,7 +55,7 @@ public class DigestSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
 }

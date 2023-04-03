@@ -11,7 +11,7 @@ class TimedFunction {
   final int _minRefreshTime;
   final int _maxRefreshTime;
 
-  TimedFunction(this.fn, {int minRefreshTime = 600, int maxRefreshTime = 1500})
+  TimedFunction(this.fn, {int minRefreshTime = 1000, int maxRefreshTime = 1500})
       : _minRefreshTime = minRefreshTime, _time = minRefreshTime, _maxRefreshTime = maxRefreshTime;
 
   void queue() {
@@ -20,9 +20,9 @@ class TimedFunction {
     _timer = Timer(Duration(milliseconds: _time), _runFn);
     if (_time < _maxRefreshTime) _time += 100;
   }
-  void _runFn() {
+  Future<void> _runFn() async {
     _timer = null;
-    fn();
+    return fn();
   }
   void resetDaly() {
     _time = _minRefreshTime;
