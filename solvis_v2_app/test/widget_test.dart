@@ -28,9 +28,7 @@ void main() {
   });
 
   testWidgets('Opens settings screen of no URL is configured', (WidgetTester tester) async {
-    when(mock.getString('solvis_user')).thenReturn(null);
-    when(mock.getString('solvis_password')).thenReturn(null);
-    when(mock.getString('solvis_url')).thenReturn(null);
+    initPrefsMock(mock, setNull: true);
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp(container: buildContext(Future.value(mock))));
@@ -100,4 +98,5 @@ void initPrefsMock(MockSharedPreferences mock, {bool setNull = false}) {
   when(mock.getString('solvis_user')).thenReturn(setNull ? null : 'user');
   when(mock.getString('solvis_password')).thenReturn(setNull ? null : 'pass');
   when(mock.getString('solvis_url')).thenReturn(setNull ? null : 'http://localhost');
+  when(mock.getBool('solvis_v2')).thenReturn(setNull ? null : true);
 }

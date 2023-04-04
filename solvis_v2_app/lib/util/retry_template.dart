@@ -9,14 +9,16 @@ class ErrorListenerTemplate with Closeable {
   ErrorListenerTemplate() : listener = ValueNotifier(null);
   ErrorListenerTemplate.withNotifier(this.listener);
 
-  Future<T> exec<T>(FutureFunction<T> fn) async {
+  bool get hasError => listener.value != null;
+
+  Future<T?> exec<T>(FutureFunction<T> fn) async {
     try {
       final result = await fn();
       listener.value = null;
       return result;
     } on Exception catch (e) {
       listener.value = e;
-      rethrow;
+      return null;
     }
   }
 

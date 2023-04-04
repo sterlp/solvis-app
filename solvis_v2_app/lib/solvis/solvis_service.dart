@@ -48,7 +48,7 @@ class SolvisService with Closeable {
   }
 
   Future<ui.Image?> confirm({int delay = 500}) {
-    return _errorTemplate.exec(() async {
+    return _errorTemplate.exec<ui.Image?>(() async {
       await _retryTemplate.exec(() => _client.confirm(delay: delay));
       _timer.resetDaly();
       return refreshScreen();
@@ -56,7 +56,7 @@ class SolvisService with Closeable {
   }
 
   Future<ui.Image?> touch(int x, int y) {
-    return _errorTemplate.exec(() async {
+    return _errorTemplate.exec<ui.Image?>(() async {
       await _retryTemplate.exec(() => _client.touch(x, y));
       return refreshScreen();
     });
@@ -71,7 +71,7 @@ class SolvisService with Closeable {
       return r;
     });
     ui.Image? result;
-    if (r.statusCode <= 299) {
+    if (r != null &&  r.statusCode <= 299) {
       result = await decodeImageFromList(r.bodyBytes);
       screen.value = result;
       _errorTemplate.clearError();
