@@ -11,7 +11,7 @@ class TimedFunction {
   final int _minRefreshTime;
   final int _maxRefreshTime;
 
-  TimedFunction(this.fn, {int minRefreshTime = 1000, int maxRefreshTime = 1500})
+  TimedFunction(this.fn, {int minRefreshTime = 700, int maxRefreshTime = 1500})
       : _minRefreshTime = minRefreshTime, _time = minRefreshTime, _maxRefreshTime = maxRefreshTime;
 
   void queue() {

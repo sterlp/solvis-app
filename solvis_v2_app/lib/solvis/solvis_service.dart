@@ -21,7 +21,7 @@ class SolvisService with Closeable {
 
   Future<ui.Image?> connect() async {
     _errorTemplate.clearError();
-    final r = await _client.getServer();
+    await _client.getServer();
     // debugPrint('head connect $r ${r.statusCode} ${r.headers['www-authenticate']}');
     return refreshScreen();
   }

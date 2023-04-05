@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:solvis_v2_app/app_config.dart';
 import 'package:solvis_v2_app/settings/solvis_settings.dart';
 import 'package:solvis_v2_app/solvis/solvis_service.dart';
+import 'package:solvis_v2_app/widget/app_drawer_widget.dart';
 import 'package:solvis_v2_app/widget/loading_button.dart';
 
 class ServerSettingsPage extends StatefulWidget {
@@ -52,6 +53,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: const AppDrawerWidget(),
       appBar: AppBar(
         title: const Text("Solvis V2 Einstellungen"),
       ),
@@ -137,7 +139,12 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
     updateSolvisClientInContext(widget._container);
 
     final solvisService = widget._container.get<SolvisService>();
-    final result = await solvisService.connect();
+    ui.Image? result;
+    try {
+      result = await solvisService.connect();
+    } on Exception catch (e) {
+      solvisService.errorStatus.value = e;
+    }
 
     if (mounted) {
       if (solvisService.errorStatus.value == null) {
@@ -154,6 +161,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
           btnOkColor: Colors.green,
         ).show();
       } else {
+        debugPrint('Fehler ...');
         AwesomeDialog(
           context: context,
           dialogType: DialogType.error,

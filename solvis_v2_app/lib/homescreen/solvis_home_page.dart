@@ -11,6 +11,7 @@ import 'package:solvis_v2_app/settings/server_settings_page.dart';
 import 'package:solvis_v2_app/settings/solvis_settings.dart';
 import 'package:solvis_v2_app/solvis/solvis_service.dart';
 import 'package:solvis_v2_app/util/timed_function.dart';
+import 'package:solvis_v2_app/widget/app_drawer_widget.dart';
 import 'package:solvis_v2_app/widget/loading_button.dart';
 import 'package:solvis_v2_app/widget/loading_widget.dart';
 
@@ -88,14 +89,9 @@ class _SolvisHomePageState extends State<SolvisHomePage> with WidgetsBindingObse
     final container = widget._container;
     final solvisService = container.get<SolvisService>();
     return Scaffold(
+      drawer: AppDrawerWidget(openMenuFn: _doOpenSettingsPage),
       appBar: AppBar(
         title: Text(widget.title),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: _doOpenSettingsPage,
-          )
-        ],
       ),
       body: _buildBody(),
       floatingActionButton: _buildReturnFloatingButton(solvisService),
