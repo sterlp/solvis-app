@@ -4,7 +4,7 @@ import 'dart:ui' as ui show Image;
 import 'package:flutter/material.dart';
 
 class ImageEditor extends CustomPainter {
-  final Offset offset = Offset.zero;
+  static final Paint drawPaint = Paint();
   final ui.Image image;
   bool _redraw = true;
   ImageEditor(this.image);
@@ -22,7 +22,7 @@ class ImageEditor extends CustomPainter {
       _scale = math.min(maxWidth, maxHeight);
       // debugPrint('scale: $_scale');
       canvas.scale(_scale, _scale);
-      canvas.drawImage(image, offset, Paint());
+      canvas.drawImage(image, Offset.zero, drawPaint);
       _redraw = false;
     }
   }

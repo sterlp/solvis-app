@@ -44,7 +44,7 @@ abstract class SolvisClient with Closeable {
       Timer(Duration(milliseconds: timeInMs), () => result.complete(doGet(url)),);
       return result.future;
     } else {
-      return _client.get(Uri.parse(url));
+      return doGet(url);
     }
   }
 

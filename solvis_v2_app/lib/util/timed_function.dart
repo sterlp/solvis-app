@@ -17,7 +17,7 @@ class TimedFunction {
   void queue() {
     cancel();
     // debugPrint('queue $_time');
-    _timer = Timer(Duration(milliseconds: _time), _runFn);
+    _timer ??= Timer(Duration(milliseconds: _time), _runFn);
     if (_time < _maxRefreshTime) _time += 100;
   }
   Future<void> _runFn() async {

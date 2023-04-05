@@ -29,15 +29,13 @@ Future<AppContainer> buildContext([Future<SharedPreferences>?  pref]) async {
 void updateSolvisClientInContext(AppContainer container) {
   final conf = container.get<SolvisSettingsDao>();
 
-  container.get<SolvisClient>().dispose();
-  container.get<SolvisService>().dispose();
-
   SolvisClient client;
   if (conf.isSolvisV2) {
     client = SolvisClientV2.fromSettings(conf);
   } else {
     client = SolvisClientV3.fromSettings(conf);
   }
+  container.get<SolvisClient>().dispose();
   container.add<SolvisClient>(client);
-  container.add<SolvisService>(SolvisService(client));
+  container.get<SolvisService>().solvisClient = client;
 }

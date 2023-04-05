@@ -22,18 +22,18 @@ class _CircularLoadingButtonState extends State<CircularLoadingButton> {
   Widget build(BuildContext context) {
     Widget result;
     if (_loading) {
-      result = ElevatedButton.icon(onPressed: null,
+      result = OutlinedButton.icon(onPressed: null,
         icon: Container(margin: const EdgeInsets.all(5), height: 24, width: 24, child: const CircularProgressIndicator()),
         label: widget.label,
       );
     } else {
       if (widget.icon == null) {
-        result = ElevatedButton(
+        result = OutlinedButton(
           onPressed: widget.onPressed == null ? null : _press,
           child: widget.label,
         );
       } else {
-        result = ElevatedButton.icon(
+        result = OutlinedButton.icon(
           icon: widget.icon!,
           onPressed: widget.onPressed == null ? null : _press,
           label: widget.label,

@@ -1,3 +1,4 @@
+import 'dart:ui' as ui show Image;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'package:solvis_v2_app/solvis/solvis_service.dart';
 import 'package:solvis_v2_app/widget/loading_button.dart';
 
 class ServerSettingsPage extends StatefulWidget {
-  static Future<void> open(BuildContext context, AppContainer container) {
+  static Future<ui.Image?> open(BuildContext context, AppContainer container) {
     HapticFeedback.mediumImpact();
     return Navigator.push(
       context,
@@ -99,8 +100,8 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
           title: CircularLoadingButton(
             label: const Text('Solvis SC2 "solvis/solvis" verwenden'),
             onPressed: () async {
-              setState(() {
-                settings.isSolvisV2 = true;
+              setState(() async {
+                await settings.setIsSolvisV2(true);
                 _userNameCtrl.text = "solvis";
                 _userPasswordCtrl.text = "solvis";
               });
@@ -129,18 +130,17 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
     final settings = widget._container.get<SolvisSettingsDao>();
 
 
-    settings.url = _serverUrlCtrl.text;
-    settings.user = _userNameCtrl.text;
-    settings.password = _userPasswordCtrl.text;
+    await settings.setUrl(_serverUrlCtrl.text);
+    await settings.setUser(_userNameCtrl.text);
+    await settings.setPassword(_userPasswordCtrl.text);
 
     updateSolvisClientInContext(widget._container);
 
     final solvisService = widget._container.get<SolvisService>();
-    try {
-      await solvisService.connect();
-      solvisService.autoRefreshScreen();
+    final result = await solvisService.connect();
 
-      if (mounted) {
+    if (mounted) {
+      if (solvisService.errorStatus.value == null) {
         AwesomeDialog(
           context: context,
           dialogType: DialogType.success,
@@ -148,22 +148,19 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
           headerAnimationLoop: false,
           title: settings.isSolvisV2 ? 'Solvis V2 Erfolg' : 'Solvis V3 Erfolg',
           desc: 'Verbindung erfolgreich.',
-          btnOkOnPress: () => Navigator.pop(context),
+          btnOkOnPress: () => Navigator.pop(context, result),
           btnOkIcon: Icons.check_circle,
           btnOkText: 'Schließen',
           btnOkColor: Colors.green,
         ).show();
-      }
-    } catch (e) {
-      if (mounted) {
-        debugPrint('$e ${e.runtimeType}');
+      } else {
         AwesomeDialog(
           context: context,
           dialogType: DialogType.error,
           animType: AnimType.topSlide,
           headerAnimationLoop: false,
           title: settings.isSolvisV2 ? 'Solvis V2 Fehler' : 'Solvis V3 Fehler',
-          desc: e.toString(),
+          desc: solvisService.errorStatus.value.toString(),
           btnOkOnPress: () {},
           btnOkText: 'Einstellungen ändern',
           btnOkIcon: Icons.cancel,
