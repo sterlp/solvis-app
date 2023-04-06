@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:http/http.dart';
 import 'package:solvis_v2_app/settings/solvis_settings.dart';
@@ -6,7 +7,9 @@ import 'package:solvis_v2_app/solvis/solvis_client.dart';
 
 class SolvisClientV2 extends SolvisClient {
 
-  SolvisClientV2.fromSettings(SolvisSettingsDao settings) : super.fromSettings(settings);
+  final random = Random();
+
+  SolvisClientV2.fromSettings(super.settings) : super.fromSettings();
 
   /*
   void menuWater() async {
@@ -20,17 +23,21 @@ class SolvisClientV2 extends SolvisClient {
   }
   */
 
+  int _nextRandom() {
+    return random.nextInt(99999999);
+  }
+
   @override
   Future<Response> info() {
-    return doGet('http://$server/Taster.CGI?taste=rechts&i=45507447');
+    return doGet('http://$server/Taster.CGI?taste=rechts&i=${_nextRandom()}');
   }
   @override
   Future<Response> back() {
-    return doGet('http://$server/Taster.CGI?taste=links&i=49019573');
+    return doGet('http://$server/Taster.CGI?taste=links&i=${_nextRandom()}');
   }
   @override
   Future<Response> loadScreen() {
-    return doGet('http://$server/display.bmp');
+    return doGet('http://$server/display.bmp?${_nextRandom()}');
   }
   @override
   Future<Response> confirm({int delay = 500}) async {
