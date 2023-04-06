@@ -60,6 +60,13 @@ class SolvisService with Closeable {
     });
   }
 
+  Future<void> info() {
+    return _errorTemplate.exec(() async {
+      final r = await _retryTemplate.exec(() => _client.info());
+      _verifyResponse(r);
+    });
+  }
+
   void _verifyResponse(Response r) {
     if (r.statusCode == 401) throw Exception('Falscher Benutzername oder Passwort.');
     else if (r.statusCode > 299) throw Exception('${r.statusCode} Verbindung fehlgeschlagen. ${r.body}');

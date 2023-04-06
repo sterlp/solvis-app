@@ -84,13 +84,13 @@ void main() {
     await tester.pump();
 
     expect(find.byType(SolvisHomePage), findsOneWidget);
-    expect(find.byType(FloatingActionButton), findsNothing);
 
     final ctx = await c;
     ctx.get<SolvisClient>().server = 'http://localhost';
 
     await tester.pump();
     expect(find.text ('zurück'), findsNothing);
+    expect(find.text ('Hilfe'), findsNothing);
   });
 }
 

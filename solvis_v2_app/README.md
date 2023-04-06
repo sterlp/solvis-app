@@ -2,6 +2,8 @@
 
 Solvis V2 Remote App
 
+![Home Screen](resources/Solvis%20Home.png)
+
 # Commands
 
 ## Build Release
@@ -52,7 +54,7 @@ Solvis V2 Remote App
 
 ## Sonstiges weiter pfeil hoch
 - http://192.168.188.37/Touch.CGI?x=441&y=30
-
+c
 ## Taste rechts Fragezeichen
 - http://192.168.188.37/Taster.CGI?taste=rechts&i=33343285
 

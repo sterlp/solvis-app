@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.hasData) {
             return SolvisHomePage(snapshot.requireData, title: title);
           } else if (snapshot.hasError) {
-            Sentry.captureException(snapshot.error, hint: 'main start');
+            Sentry.captureException(snapshot.error);
             return _appScaffold(Center(child: Text(snapshot.error.toString())));
           } else {
             // Loading screen

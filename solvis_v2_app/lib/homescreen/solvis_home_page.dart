@@ -96,7 +96,7 @@ class _SolvisHomePageState extends State<SolvisHomePage> with WidgetsBindingObse
         title: Text(widget.title),
       ),
       body: _buildBody(),
-      floatingActionButton: _buildReturnFloatingButton(solvisService),
+      //floatingActionButton: _buildReturnFloatingButton(solvisService),
     );
   }
 
@@ -107,7 +107,18 @@ class _SolvisHomePageState extends State<SolvisHomePage> with WidgetsBindingObse
         if (value != null) {
           return _buildErrorScreen(solvisService.errorStatus.value!, solvisService);
         } else if (screen != null) {
-          return  _buildSolvisScreen(screen!, solvisService);
+          final widgets = [
+            Expanded(child: _buildSolvisScreen(screen!, solvisService)),
+            _buildReturnFloatingButton(solvisService),
+          ];
+          return  OrientationBuilder(
+            builder: (context, orientation) {
+              if (orientation == Orientation.portrait) {
+                return Column(children: widgets,);
+              } else {
+              return Row(children: widgets,);
+              }
+            },);
         } else {
           return const LoadingWidget();
         }
@@ -119,7 +130,6 @@ class _SolvisHomePageState extends State<SolvisHomePage> with WidgetsBindingObse
   int? _tapDownTime;
 
   Widget _buildSolvisScreen(ImageEditor image, SolvisService solvisService) {
-
 
     return SolvisImageWidget(
       image: image,
@@ -163,15 +173,42 @@ class _SolvisHomePageState extends State<SolvisHomePage> with WidgetsBindingObse
     if (mounted) _autoRefresh.queue();
   }
 
-  Widget? _buildReturnFloatingButton(SolvisService solvisService) {
+  Widget _buildReturnFloatingButton(SolvisService solvisService) {
     return ValueListenableBuilder(
       valueListenable: solvisService.errorStatus,
       builder: (context, value, child) {
         if (value == null) {
-          return CircularLoadingButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            label: const Text('Zurück'),
-            onPressed: solvisService.back,
+          final widgets = [
+            Expanded(child: Container()),
+            CircularLoadingButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              label: const Text('Zurück'),
+              onPressed: solvisService.back,
+            ),
+            Expanded(child: Container()),
+            Expanded(child: Container()),
+            Expanded(child: Container()),
+            CircularLoadingButton(
+              icon: const Icon(Icons.question_mark),
+              label: const Text('Hilfe'),
+              onPressed: solvisService.info,
+            ),
+            Expanded(child: Container()),
+          ];
+          return OrientationBuilder(
+            builder: (context, orientation) {
+                if (orientation == Orientation.portrait) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                    child: Row(children: widgets,),
+                  );
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                    child: Column(children: widgets,),
+                  );
+                }
+              },
           );
         } else {
           return Container();
