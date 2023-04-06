@@ -22,7 +22,7 @@ jobs:
         java-version: '12.x'
     - uses: subosito/flutter-action@v1
       with:
-        flutter-version: '2.2.3'
+        flutter-version: '3.7.9'
     - name: Install Dependencies
       run: flutter pub get
       working-directory: solvis_v2_app
