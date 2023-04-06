@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:solvis_v2_app/help/manual_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppDrawerWidget extends StatelessWidget {
@@ -29,33 +30,12 @@ class AppDrawerWidget extends StatelessWidget {
       ListTile(
         leading: const Icon(Icons.book),
         title: const Text('Solvis V2 Handbuch'),
-        onTap: () async {
-
-          final tempDir = await getTemporaryDirectory();
-          final tmpV2 = File('${tempDir.path}/Solvis_Remote_Bedienanleitung_v2.pdf');
-          if (!(await tmpV2.exists())){
-            tmpV2.create();
-            final bytes = await rootBundle.load("assets/Solvis_Remote_Bedienanleitung_v2.pdf");
-            final list = bytes.buffer.asUint8List();
-            tmpV2.writeAsBytesSync(list);
-          }
-
-          await Share.shareXFiles(
-              [XFile(tmpV2.path,
-                  mimeType: 'application/pdf',
-                  name: 'Solvis V2 Remote Bedienanleitung'),
-              ],);
-
-          tmpV2.delete();
-
-        },
+        onTap: () => openManualPage(context),
       ),
       ListTile(
         leading: const Icon(Icons.bug_report_outlined),
         title: const Text('Problem melden'),
-        onTap: () {
-          launchUrl(Uri.parse('https://github.com/sterlp/solvis-app/issues'));
-        },
+        onTap: () => launchUrl(Uri.parse('https://github.com/sterlp/solvis-app/issues')),
       ),
     ];
     if (openMenuFn != null) {
