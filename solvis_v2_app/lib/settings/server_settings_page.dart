@@ -1,4 +1,5 @@
 import 'dart:ui' as ui show Image;
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/material.dart';

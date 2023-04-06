@@ -1,4 +1,5 @@
 import 'dart:ui' as ui show Image;
+
 import 'package:dependency_container/dependency_container.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class _SolvisHomePageState extends State<SolvisHomePage> with WidgetsBindingObse
     _autoRefresh = TimedFunction(() async {
       if (mounted) {
         _updateSolvisScreen(await solvisService.refreshScreen());
+        // debugPrint('${ModalRoute.of(context)?.isCurrent}');
         if (mounted && solvisService.errorStatus.value == null) _autoRefresh.queue();
       }
     });

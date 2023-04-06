@@ -1,12 +1,10 @@
 import 'dart:ui' as ui show Image;
 
 import 'package:dependency_container/dependency_container.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
 import 'package:solvis_v2_app/util/retry_template.dart';
-import 'package:solvis_v2_app/util/timed_function.dart';
 
 class SolvisService with Closeable {
   SolvisClient _client;
