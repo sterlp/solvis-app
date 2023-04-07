@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:http/http.dart';
-import 'package:solvis_v2_app/settings/solvis_settings.dart';
 import 'package:solvis_v2_app/solvis/solvis_client.dart';
 
 class SolvisClientV2 extends SolvisClient {

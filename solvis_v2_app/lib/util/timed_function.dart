@@ -1,8 +1,8 @@
 
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 class TimedFunction {
   VoidCallback fn;
@@ -11,12 +11,12 @@ class TimedFunction {
   final int _minRefreshTime;
   final int _maxRefreshTime;
 
-  TimedFunction(this.fn, {int minRefreshTime = 700, int maxRefreshTime = 1500})
+  TimedFunction(this.fn, {int minRefreshTime = 500, int maxRefreshTime = 1500})
       : _minRefreshTime = minRefreshTime, _time = minRefreshTime, _maxRefreshTime = maxRefreshTime;
 
   void queue() {
     cancel();
-    // debugPrint('queue $_time');
+    if (kDebugMode) debugPrint('TimedFunction queue $_time');
     _timer ??= Timer(Duration(milliseconds: _time), _runFn);
     if (_time < _maxRefreshTime) _time += 100;
   }

@@ -18,7 +18,7 @@ import 'package:solvis_v2_app/widget/loading_widget.dart';
 
 class SolvisHomePage extends StatefulWidget {
 
-  const SolvisHomePage(this._container, {Key? key, required this.title}) : super(key: key);
+  const SolvisHomePage(this._container, {super.key, required this.title});
 
   final String title;
   final AppContainer _container;
@@ -57,6 +57,7 @@ class _SolvisHomePageState extends State<SolvisHomePage> with WidgetsBindingObse
 
   Future<void> _refreshScreen() async {
     _updateSolvisScreen(await solvisService.refreshScreen());
+    _autoRefresh.resetDaly();
     if (mounted) _autoRefresh.queue();
     if (solvisService.errorStatus.value != null) setState(() {});
   }
@@ -183,7 +184,10 @@ class _SolvisHomePageState extends State<SolvisHomePage> with WidgetsBindingObse
             CircularLoadingButton(
               icon: const Icon(Icons.arrow_back_ios),
               label: const Text('Zurück'),
-              onPressed: solvisService.back,
+              onPressed: () async {
+                await solvisService.back();
+                _refreshScreen();
+              },
             ),
             Expanded(child: Container()),
             Expanded(child: Container()),
@@ -191,7 +195,10 @@ class _SolvisHomePageState extends State<SolvisHomePage> with WidgetsBindingObse
             CircularLoadingButton(
               icon: const Icon(Icons.question_mark),
               label: const Text('Hilfe'),
-              onPressed: solvisService.info,
+              onPressed: () async {
+                await solvisService.info();
+                _refreshScreen();
+              },
             ),
             Expanded(child: Container()),
           ];
