@@ -14,6 +14,7 @@ class SolvisService with Closeable {
   SolvisService(this._client);
 
   set solvisClient(SolvisClient client) => _client = client;
+  bool get hasConnectionError => _errorTemplate.listener.value != null;
 
   ValueNotifier<Exception?> get errorStatus => _errorTemplate.listener;
 

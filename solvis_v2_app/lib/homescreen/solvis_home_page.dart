@@ -58,8 +58,8 @@ class _SolvisHomePageState extends State<SolvisHomePage> with WidgetsBindingObse
   Future<void> _refreshScreen() async {
     _updateSolvisScreen(await solvisService.refreshScreen());
     _autoRefresh.resetDaly();
-    if (mounted) _autoRefresh.queue();
-    if (solvisService.errorStatus.value != null) setState(() {});
+    if (mounted && !solvisService.hasConnectionError) _autoRefresh.queue();
+    setState(() {});
   }
 
   void _updateSolvisScreen(ui.Image? image) {

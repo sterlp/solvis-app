@@ -14,7 +14,7 @@ abstract class SolvisClient with Closeable {
   String server;
 
   SolvisClient.fromSettings(SolvisSettingsDao settings)
-    : _client = NegotiateAuthClient(settings.user, settings.password),
+    : _client = DigestAuthClient(settings.user, settings.password),
     server = settings.url, _settings = settings;
 
   bool get hasUrl => server.isNotEmpty;

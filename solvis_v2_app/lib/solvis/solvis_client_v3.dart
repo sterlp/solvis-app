@@ -4,7 +4,7 @@ import 'package:solvis_v2_app/solvis/solvis_client.dart';
 
 class SolvisClientV3 extends SolvisClient {
 
-  SolvisClientV3.fromSettings(SolvisSettingsDao settings) : super.fromSettings(settings);
+  SolvisClientV3.fromSettings(super.settings) : super.fromSettings();
 
   int _displaySuffix = 1;
 

@@ -5,11 +5,11 @@ class ConnectionErrorWidget extends StatelessWidget {
   final Function() retryFn;
   final Function() openSettingsFn;
 
-  const ConnectionErrorWidget({Key? key,
+  const ConnectionErrorWidget({super.key,
     required this.error,
     required this.retryFn,
     required this.openSettingsFn,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
