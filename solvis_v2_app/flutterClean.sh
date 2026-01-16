@@ -25,5 +25,7 @@ rm -rf "${HOME}/Library/Caches/CocoaPods"
 echo "Deleting DerivedData ..."
 rm -rf "~/Library/Developer/Xcode/DerivedData"
 echo "Running flutter packages get ..."
+flutter pub get
 flutter packages get
+flutter build appbundle --release
 echo "Done."

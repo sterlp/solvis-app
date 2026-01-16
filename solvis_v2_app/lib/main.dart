@@ -7,9 +7,9 @@ import 'package:solvis_v2_app/widget/loading_widget.dart';
 
 Future<void> main() async {
   await SentryFlutter.init(
-        (options) {
+    (options) {
       options.dsn =
-      'https://c6f8f92f1f3949edb4ee00ae3147be80@o918803.ingest.sentry.io/5862420';
+          'https://c6f8f92f1f3949edb4ee00ae3147be80@o918803.ingest.sentry.io/5862420';
     },
     appRunner: () => runApp(MyApp()),
   );
@@ -20,17 +20,22 @@ const title = 'Solvis V2 Control';
 class MyApp extends StatelessWidget {
   final Future<AppContainer> _container;
 
-  MyApp({Key? key, Future<AppContainer>? container})
-      :
-        _container = container ?? buildContext(),
-        super(key: key);
+  MyApp({super.key, Future<AppContainer>? container})
+      : _container = container ?? buildContext();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: title,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          brightness: Brightness.light,
+        ),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
       ),
       home: FutureBuilder<AppContainer>(
         future: _container,

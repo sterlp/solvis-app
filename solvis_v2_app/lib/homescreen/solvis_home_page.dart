@@ -206,12 +206,12 @@ class _SolvisHomePageState extends State<SolvisHomePage> with WidgetsBindingObse
             builder: (context, orientation) {
                 if (orientation == Orientation.portrait) {
                   return Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                    padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
                     child: Row(children: widgets,),
                   );
                 } else {
                   return Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                    padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
                     child: Column(children: widgets,),
                   );
                 }

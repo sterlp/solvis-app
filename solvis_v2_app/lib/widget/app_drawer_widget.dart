@@ -10,14 +10,14 @@ class AppDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = <Widget>[
-      const DrawerHeader(
+      DrawerHeader(
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: Theme.of(context).colorScheme.primaryContainer,
         ),
         child: Text(
           'Solvis V2 Remote',
           style: TextStyle(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
             fontSize: 24,
           ),
         ),
