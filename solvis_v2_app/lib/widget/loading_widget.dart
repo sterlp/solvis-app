@@ -26,7 +26,7 @@ class LoadingWidget extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text('Laden ...', style: Theme.of(context).textTheme.headline6))
+            child: Text('Laden ...', style: Theme.of(context).textTheme.titleLarge))
         ],
       ),
     );
